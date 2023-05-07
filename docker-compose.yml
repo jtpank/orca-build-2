@@ -1,9 +1,9 @@
 services:
-  front-end:
+  dk-app:
     image: node:18-alpine
     command: sh -c "npm install && npm start"
     ports:
       - 3000:3000
-    working_dir: /front-end
+    working_dir: /orca-build-2/front-end
     volumes:
-      - ./:/front-end
+      - ./:/orca-build-2
