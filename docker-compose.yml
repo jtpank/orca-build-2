@@ -4,6 +4,6 @@ services:
     command: sh -c "npm install && npm start"
     ports:
       - 3000:3000
-    working_dir: /orca-build-2/dk-app
+    working_dir: /dk-app
     volumes:
       - ./:/dk-app
