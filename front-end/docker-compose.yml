@@ -4,6 +4,6 @@ services:
     command: sh -c "npm install && npm start"
     ports:
       - 3000:3000
-    working_dir: /front-end/
+    working_dir: /front-end
     volumes:
       - ./:/front-end
