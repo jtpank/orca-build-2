@@ -32,7 +32,6 @@ class App extends React.Component {
             <div className='row'>
                 <Routes>
                   <Route path="/" element={<Splash/>}/>
-                  <Route path="*" element={<p>There's nothing here!</p>}/>
                 </Routes>
             </div>
             <div className='row'>

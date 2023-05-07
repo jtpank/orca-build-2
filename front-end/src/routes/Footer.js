@@ -1,5 +1,4 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 class Footer extends React.Component {
 
     render() {
@@ -8,24 +7,7 @@ class Footer extends React.Component {
         <section
             className="">
             <div className="">
-            <span>Get connected with us on social networks:</span>
-            </div>
-            <div>
-            <a href="#" className="me-4 text-reset">
-            
-            </a>
-            <a href="#" className="me-4 text-reset">
-                <FontAwesomeIcon icon="fa-brands fa-twitter" />
-            </a>
-            <a href="#" className="me-4 text-reset">
-                <FontAwesomeIcon icon="fa-brands fa-google" />
-            </a>
-            <a href="#" className="me-4 text-reset">
-                <FontAwesomeIcon icon="fa-brands fa-instagram" />
-            </a>
-            <a href="#" className="me-4 text-reset">
-                <FontAwesomeIcon icon="fa-brands fa-linkedin" />
-            </a>
+            <span>FOOTER!</span>
             </div>
         </section>
 
