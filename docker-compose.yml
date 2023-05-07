@@ -1,9 +1,9 @@
 services:
-  dk-app:
+  front-end:
     image: node:18-alpine
     command: sh -c "npm install && npm start"
     ports:
       - 3000:3000
-    working_dir: ~/dk-app
+    working_dir: /front-end/
     volumes:
-      - ./:/dk-app
+      - ./:/front-end
