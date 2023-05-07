@@ -13,7 +13,6 @@ class Footer extends React.Component {
 
         <div className="text-center p-4">
             © 2021 Copyright:
-            <a className="text-reset">copyright.com</a>
         </div>
         </div>
         );
