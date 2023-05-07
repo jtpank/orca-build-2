@@ -6,7 +6,6 @@ import Footer from "./routes/Footer";
 class App extends React.Component {
   constructor(props){
     super(props);
-    const {cookies} = props;
     this.state = {
     
     }
