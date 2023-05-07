@@ -14,16 +14,16 @@ class Footer extends React.Component {
             <a href="#" className="me-4 text-reset">
             
             </a>
-            <a href="" className="me-4 text-reset">
+            <a href="#" className="me-4 text-reset">
                 <FontAwesomeIcon icon="fa-brands fa-twitter" />
             </a>
-            <a href="" className="me-4 text-reset">
+            <a href="#" className="me-4 text-reset">
                 <FontAwesomeIcon icon="fa-brands fa-google" />
             </a>
-            <a href="" className="me-4 text-reset">
+            <a href="#" className="me-4 text-reset">
                 <FontAwesomeIcon icon="fa-brands fa-instagram" />
             </a>
-            <a href="" className="me-4 text-reset">
+            <a href="#" className="me-4 text-reset">
                 <FontAwesomeIcon icon="fa-brands fa-linkedin" />
             </a>
             </div>
