@@ -1,0 +1,17 @@
+services:
+  front-end:
+    image: node:18-alpine
+    command: sh -c "npm install && npm start"
+    ports:
+      - 3000:3000
+    working_dir: /front-end
+    volumes:
+      - ./front-end/:/front-end
+  webserver:
+    image: nginx:latest
+    ports:
+    - 80:80
+    - 443:443
+    restart: always
+    volumes:
+      - - ./nginx/conf/:/etc/nginx/conf.d/:ro
