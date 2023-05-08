@@ -11,12 +11,13 @@ class Splash extends React.Component {
             
             <div>
             </div>
-
             <div className='centered-div '>
-            <button className="kave-btn" type='submit'>
-                    <span className="kave-line"></span>
-                    <span className="button-text">Coming Soon!</span>
-                </button>
+                <div className='centered-div '>
+                <button className="kave-btn" type='submit'>
+                        <span className="kave-line"></span>
+                        <span className="button-text">Coming Soon!</span>
+                    </button>
+                </div>
             </div>
 
             <div className="row-splash">
