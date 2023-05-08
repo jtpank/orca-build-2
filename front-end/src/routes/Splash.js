@@ -1,6 +1,5 @@
 import React from 'react';
 import {Outlet} from 'react-router-dom';
-import '../styles/styles.css';
 class Splash extends React.Component {
     // {this.props.is_logged_in ? (<h1>Welcome {this.props.email} </h1>) : (<h1>Welcome </h1>)}
     render() {
