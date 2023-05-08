@@ -1,0 +1,228 @@
+:root {
+    --primary-color: #1d1d1d; /* rgb(29, 29, 29) */
+    --secondary-color: #333333; /* rgb(51, 51, 51) */
+    --tertiary-color: #4d4d4d; /* rgb(77, 77, 77) */
+    --quaternary-color: #666666; /* rgb(102, 102, 102) */
+    --quinary-color: #808080; /* rgb(128, 128, 128) */
+    
+    --accent-color-1: #8B5DA7;
+    --accent-color-2: #5E366E;
+    --accent-color-3: #2D123F;
+  
+  }
+  @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+  * {
+    box-sizing: border-box;
+  }
+  html, body {
+    text-decoration: none;
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    font-weight: normal;
+    letter-spacing: 1.8px;
+    background: linear-gradient(to bottom right,
+    var(--primary-color),
+    var(--secondary-color),
+    var(--tertiary-color),
+    var(--quaternary-color),
+    var(--quinary-color)
+  );
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-size: cover;
+  }
+    
+.kave-btn {
+    position: relative;
+    border: solid 1px rgba(0, 214, 252, 0.3);
+    /* border: solid 1px rgb(154, 22, 255); */
+    background: none;
+    color: rgba(0, 214, 252, 0.5);
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    font-weight: normal;
+    letter-spacing: 1.8px;
+    width: 200px;
+    height: 50px;
+    padding: 0;
+    transition: all 0.25s ease;
+    outline: none;
+}
+
+.kave-btn:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 10%;
+    width: 60px;
+    height: 1px;
+    transform: translateY(-1px);
+    background: rgba(0, 214, 252, 1);
+    /* background: rgb(154, 22, 255); */
+    transition: all 0.25s ease;
+}
+
+.kave-btn:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 10%;
+    width: 60px;
+    height: 1px;
+    transform: translateY(1px);
+    background: rgba(0, 214, 252, 1);
+    /* background: rgb(154, 22, 255); */
+    transition: all 0.25s ease;
+}
+
+.kave-btn:hover {
+    box-shadow: 1px 1px 8px rgba(0, 214, 252, 0.3);
+    color: rgba(0, 214, 252, 1);
+    text-shadow: 0 0 8px rgba(0, 214, 252, 0.4);
+    cursor: default;
+}
+
+.kave-btn:hover.kave-btn:before {
+    left: 0;
+    width: 20px;
+}
+
+.kave-btn:hover.kave-btn:after {
+    right: 0;
+    width: 20px;
+}
+
+.kave-btn:hover .kave-line:before {
+    bottom: 0;
+}
+
+.kave-btn:hover .kave-line:after {
+    top: 0;
+}
+
+.kave-line:before {
+    content: "";
+    position: absolute;
+    bottom: 30%;
+    right: 0;
+    width: 1px;
+    height: 20px;
+    transform: translateX(1px);
+    background: rgba(0, 214, 252, 1);
+    /* background: rgb(154, 22, 255); */
+    transition: all 0.25s ease;
+}
+
+.kave-line:after {
+    content: "";
+    position: absolute;
+    top: 30%;
+    left: 0;
+    width: 1px;
+    height: 20px;
+    transform: translateX(-1px);
+    background: rgba(0, 214, 252, 1);
+    /* background: rgb(154, 22, 255); */
+    transition: all 0.25s ease;
+}
+
+.blockglow {
+    position: relative;
+    margin: 300px auto 0;
+    width: 500px;
+    height: 250px;
+    background: linear-gradient(0deg, #000, #272727);
+    }
+    
+    .blockglow:before, .blockglow:after {
+    content: '';
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    background: linear-gradient(45deg, #fb0094, #0000ff, #00ff00,#ffff00, #ff0000, #fb0094,
+    #0000ff, #00ff00,#ffff00, #ff0000);
+    background-size: 400%;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    z-index: 99;
+    animation: steam 20s linear infinite;
+    }
+    
+    @keyframes steam {
+    0% {
+    background-position: 0 0;
+    }
+    50% {
+    background-position: 400% 0;
+    }
+    100% {
+    background-position: 0 0;
+    }
+    }
+    
+    .blockglow:after {
+    filter: blur(50px);
+    }
+  
+  .splash-header {
+    display: flex; 
+    gap: 30px;
+    position: relative;
+    border: solid 1px rgba(0, 214, 252, 1);
+    background: black;
+    opacity: 0.85;
+    color: rgba(0, 214, 252, 0.5);
+    width: 100%;
+    height: 70px;
+    margin-top: 10px;
+    padding: 20px;
+    outline: none;
+    box-shadow: 20px 20px 20px rgba(0, 214, 252, 0.3);
+  }
+  .splash-header-main-button {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    font-weight: normal;
+    letter-spacing: 1.8px;
+    color: rgba(0, 214, 252, 0.5);
+  }
+  .splash-header-main-button::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 214, 252, 1);
+    transform: scaleX(0); /* Start with the line invisible */
+    transform-origin: bottom left;
+    transition: transform 0.3s ease; /* Add a transition effect */
+  }
+  
+  .splash-header-main-button:hover::after {
+    transform: scaleX(1); /* Make the line visible on hover */
+  }
+  
+  .splash-header-main-button:hover {
+    color: rgba(0, 214, 252, 1); /* Change the color of the text on hover */
+  }
+  
+  
+  .splash-footer {
+    display: flex; 
+    gap: 30px;
+    position: fixed;
+    bottom: 0;
+    border: solid 1px rgba(0, 214, 252, 1);
+    background: black;
+    opacity: 0.9;
+    color: rgba(0, 214, 252, 0.5);
+    width: 100%;
+    height: 70px;
+    margin-top: 10px;
+    padding: 0px;
+    outline: none;
+    box-shadow: 20px 20px 20px rgba(0, 214, 252, 0.3);
+  }
+  
