@@ -7,12 +7,11 @@ class Footer extends React.Component {
         <section
             className="">
             <div className="">
-            <span>FOOTER!</span>
             </div>
         </section>
 
         <div className="text-center p-4">
-            © 2021 Copyright:
+            © 2021-2023
         </div>
         </div>
         );

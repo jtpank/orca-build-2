@@ -26,8 +26,7 @@ class App extends React.Component {
         <div className="App">
           <div className='entire-container'>
             <div className='row'>
-            <Header
-                />
+            {/* <Header/> */}
             </div>
             <div className='row'>
                 <Routes>
@@ -35,7 +34,7 @@ class App extends React.Component {
                 </Routes>
             </div>
             <div className='row'>
-            <Footer />
+            {/* <Footer /> */}
             </div>
           </div>
         </div>
