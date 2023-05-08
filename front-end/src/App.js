@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes} from 'react-router-dom';
 import Header from "./routes/Header";
 import Splash from "./routes/Splash";
 import Footer from "./routes/Footer";
+import './styles/styles.css';
 class App extends React.Component {
   constructor(props){
     super(props);
