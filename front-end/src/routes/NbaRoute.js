@@ -38,7 +38,7 @@ class NbaRoute extends React.Component {
                 <div className='link-header-div'>
                     <p>Nba route</p>
                     <button 
-                    onClick={() => this.getNbaData_balldontlie}
+                    onClick={() => this.getNbaData_balldontlie()}
                     >
                     Click to display current game data!
                     </button>
