@@ -47,11 +47,8 @@ class NbaRoute extends React.Component {
                     Click to display current game data!
                     </button>
                     <div>
-                        <p>{this.state._game_array[0]['home_team']['abbreviation']}</p>
-                        <p>{this.state._game_array[0]['away_team']['abbreviation']}</p>
-                        <p>{this.state._game_array[0]['home_team']['abbreviation']}</p>
-                        <p>{this.state._game_array[1]['home_team']['abbreviation']}</p>
-                        <p>{this.state._game_array[1]['away_team']['abbreviation']}</p>
+                        <p>{this.state._game_array[0]}</p>
+                        
                     </div>
                 </div>
             </div>
