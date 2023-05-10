@@ -5,7 +5,7 @@ class NbaRoute extends React.Component {
         this.state = {
 
         }
-        this.getNbaData_balldontlie = this.bgetNbaData_balldontlie.bind(this);
+        this.getNbaData_balldontlie = this.getNbaData_balldontlie.bind(this);
     }
     async getNbaData_balldontlie() 
     {
