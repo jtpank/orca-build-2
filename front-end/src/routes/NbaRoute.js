@@ -23,7 +23,7 @@ class NbaRoute extends React.Component {
                 const error = (data && data.message) || response.statusText;
                 return Promise.reject(error);
             }
-            console.log(data.data)
+            console.log(data.data[0].home_team.abbreviation)
             let game_array = data.data;
             this.setState({
                 _game_array : game_array
@@ -47,7 +47,7 @@ class NbaRoute extends React.Component {
                     Click to display current game data!
                     </button>
                     <div>
-                        <p>{this.state._game_array[0]}</p>
+                        {/* <p>{this.state._game_array[0]}</p> */}
                         
                     </div>
                 </div>
