@@ -3,7 +3,7 @@ class NbaRoute extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            _game_array : [],
         };
         this.getNbaData_balldontlie = this.getNbaData_balldontlie.bind(this);
     }
@@ -23,7 +23,10 @@ class NbaRoute extends React.Component {
                 const error = (data && data.message) || response.statusText;
                 return Promise.reject(error);
             }
-            console.log(data);
+            let game_array = data.data;
+            this.setState({
+                _game_array : game_array
+            })
             return data;
         })
         .catch(error => {
@@ -42,6 +45,13 @@ class NbaRoute extends React.Component {
                     >
                     Click to display current game data!
                     </button>
+                    <div>
+                        <p>{this.state._game_array[0].home_team.abbreviation}</p>
+                        <p>{this.state._game_array[0].away_team.abbreviation}</p>
+                        <p>{this.state._game_array[0].home_team.abbreviation}</p>
+                        <p>{this.state._game_array[1].home_team.abbreviation}</p>
+                        <p>{this.state._game_array[1].away_team.abbreviation}</p>
+                    </div>
                 </div>
             </div>
 
