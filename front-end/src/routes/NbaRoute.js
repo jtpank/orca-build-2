@@ -4,7 +4,7 @@ class NbaRoute extends React.Component {
         super(props);
         this.state = {
 
-        }
+        };
         this.getNbaData_balldontlie = this.getNbaData_balldontlie.bind(this);
     }
     async getNbaData_balldontlie() 
@@ -38,7 +38,7 @@ class NbaRoute extends React.Component {
                 <div className='link-header-div'>
                     <p>Nba route</p>
                     <button 
-                    onSelect={() => this.getNbaData_balldontlie}
+                    onClick={() => this.getNbaData_balldontlie}
                     >
                     Click to display current game data!
                     </button>
