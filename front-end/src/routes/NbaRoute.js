@@ -46,7 +46,29 @@ class NbaRoute extends React.Component {
       });
     return externResponse;
   }
-
+  async handleDisplayLiveOddsData(teamID) {
+    const oddsAPI = 'https://api.the-odds-api.com/v4/sports/basketball_nba/odds';
+    const apiKey = 'DUMMY-KEY';
+    const fullAPI = `${oddsAPI}?apiKey=${apiKey}&regions=us&markets=h2h&oddsFormat=american&team=${teamID}`;
+    
+    const externResponse = await fetch(fullAPI)
+      .then(async (response) => {
+        const data = await response.json();
+        // check for error response
+        if (!response.ok) {
+          // get error message from body or default to response statusText
+          const error = (data && data.message) || response.statusText;
+          return Promise.reject(error);
+        }
+        console.log(data);
+        return data;
+      })
+      .catch((error) => {
+        //this.setState({ errorMessage: error.toString() });
+        console.error('There was an error!', error);
+      });
+    return externResponse;
+  }
   render() {
     const teamLogos = {
         ATL: require('../nba_logos/ATL.png'),
@@ -89,7 +111,17 @@ class NbaRoute extends React.Component {
           <button onClick={() => this.getNbaData_balldontlie()}>
             Click to display current game data!
           </button>
-            <ContestTable teamLogos={teamLogos} games={_game_array} />
+            <div className='contest-div-container'>
+                {_game_array.length > 0 &&
+                    _game_array.map((game) => (
+                        <ContestTable 
+                        teamLogos={teamLogos} 
+                        game={game} 
+                        handleDisplayLiveOddsData={this.handleDisplayLiveOddsData} 
+                        />
+                    ))
+                }
+            </div>
         </div>
       </div>
     );
