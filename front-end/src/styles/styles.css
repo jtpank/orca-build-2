@@ -245,3 +245,13 @@
     opacity: 0.85;
   }
   
+  .contest-table {
+      border-collapse: collapse;
+      border: 1px solid white;
+      margin: 8px;
+  }
+  .contest-table-body {
+    display: flex;
+    align-items: center;
+  }
+  

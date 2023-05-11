@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import '../styles/styles.css';
 class NbaRoute extends React.Component {
   constructor(props) {
     super(props);
@@ -91,7 +92,7 @@ class NbaRoute extends React.Component {
           {isLoading && <p>Loading...</p>}
           {_game_array.length > 0 &&
             _game_array.map((game) => (
-                <table>
+                <table className='contest-table'>
                 <thead>
                 <tr>
                     <th>Team</th>
@@ -101,7 +102,7 @@ class NbaRoute extends React.Component {
                 <tbody key={game.id}>
                 <tr>
                     <td>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <div className='contest-table-body'>
                         <img src={teamLogos[game.home_team.abbreviation]} alt={game.home_team.full_name} />
                         <p>{game.home_team.abbreviation}</p>
                         </div>
@@ -110,7 +111,7 @@ class NbaRoute extends React.Component {
                 </tr>
                 <tr>
                     <td>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <div className='contest-table-body'>
                         <img src={teamLogos[game.visitor_team.abbreviation]} alt={game.visitor_team.full_name} />
                         <p>{game.visitor_team.abbreviation}</p>
                         </div>
