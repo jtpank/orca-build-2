@@ -4,7 +4,7 @@ import Header from "./routes/Header";
 import Splash from "./routes/Splash";
 import Footer from "./routes/Footer";
 import NbaRoute from './routes/NbaRoute';
-import './styles/styles.css'
+import './styles/styles.css';
 class App extends React.Component {
   constructor(props){
     super(props);

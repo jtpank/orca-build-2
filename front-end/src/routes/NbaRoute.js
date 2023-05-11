@@ -1,12 +1,14 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import ContestTable from '../components/ContestTable';
+import LiveChart from '../components/LiveChart';
 import '../styles/styles.css';
 class NbaRoute extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       _game_array: [],
+      _live_chart_render: false,
     };
     this.getNbaData_balldontlie = this.getNbaData_balldontlie.bind(this);
   }
@@ -48,7 +50,7 @@ class NbaRoute extends React.Component {
   }
   async handleDisplayLiveOddsData(teamID) {
     const oddsAPI = 'https://api.the-odds-api.com/v4/sports/basketball_nba/odds';
-    const apiKey = 'DUMMY-KEY';
+    const apiKey = process.env.REACT_APP_ODDS_API_API_KEY;
     const fullAPI = `${oddsAPI}?apiKey=${apiKey}&regions=us&markets=h2h&oddsFormat=american&team=${teamID}`;
     
     const externResponse = await fetch(fullAPI)
@@ -61,6 +63,9 @@ class NbaRoute extends React.Component {
           return Promise.reject(error);
         }
         console.log(data);
+        this.setState({
+            _live_chart_render: true,
+          });
         return data;
       })
       .catch((error) => {
@@ -122,6 +127,7 @@ class NbaRoute extends React.Component {
                     ))
                 }
             </div>
+            <LiveChart></LiveChart>
         </div>
       </div>
     );
