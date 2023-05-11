@@ -11,10 +11,10 @@ class NbaRoute extends React.Component {
       _live_chart_render: false,
     };
     this.getNbaData_balldontlie = this.getNbaData_balldontlie.bind(this);
+    this.handleDisplayLiveOddsData = this.handleDisplayLiveOddsData.bind(this);
   }
 
   async getNbaData_balldontlie() {
-    this.setState({ isLoading: true });
     //can only fetch IF the selectData states passed checks...
     //TODO:
     //Season could incrue bugs IF the month is around december 2022 for example
@@ -38,7 +38,6 @@ class NbaRoute extends React.Component {
         let game_array = data.data;
         this.setState({
           _game_array: game_array,
-          isLoading: false,
         });
         return data;
       })
@@ -61,10 +60,10 @@ class NbaRoute extends React.Component {
           // get error message from body or default to response statusText
           const error = (data && data.message) || response.statusText;
           return Promise.reject(error);
-        }
+        };
         console.log(data);
         this.setState({
-            _live_chart_render: true,
+            _live_chart_render: false,
           });
         return data;
       })
@@ -119,7 +118,8 @@ class NbaRoute extends React.Component {
             <div className='contest-div-container'>
                 {_game_array.length > 0 &&
                     _game_array.map((game) => (
-                        <ContestTable 
+                        <ContestTable
+                        key={game.id}
                         teamLogos={teamLogos} 
                         game={game} 
                         handleDisplayLiveOddsData={this.handleDisplayLiveOddsData} 
@@ -127,7 +127,9 @@ class NbaRoute extends React.Component {
                     ))
                 }
             </div>
-            <LiveChart></LiveChart>
+            <LiveChart
+            
+            ></LiveChart>
         </div>
       </div>
     );
