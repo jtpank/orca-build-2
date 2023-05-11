@@ -63,7 +63,7 @@ class NbaRoute extends React.Component {
         };
         console.log(data);
         this.setState({
-            _live_chart_render: false,
+            _live_chart_render: true,
           });
         return data;
       })
@@ -106,7 +106,7 @@ class NbaRoute extends React.Component {
         UTA: require('../nba_logos/ATL.png'),
         WAS: require('../nba_logos/ATL.png'),
       };
-    const { isLoading, _game_array } = this.state;
+    const { _game_array, _live_chart_render } = this.state;
     return (
       <div className="splash-header">
         <div className="contest-div-container-external">
@@ -127,9 +127,11 @@ class NbaRoute extends React.Component {
                     ))
                 }
             </div>
-            <LiveChart
-            
-            ></LiveChart>
+            {_live_chart_render && 
+                <LiveChart
+
+                ></LiveChart>
+            }
         </div>
       </div>
     );
