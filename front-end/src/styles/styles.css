@@ -245,6 +245,11 @@
     opacity: 0.85;
   }
   
+  .contest-div-container {
+    display: flex;
+    flex-direction: row;
+  }
+
   .contest-table {
       border-collapse: collapse;
       border: 1px solid white;

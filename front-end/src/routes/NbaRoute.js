@@ -1,12 +1,12 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import ContestTable from '../components/ContestTable';
 import '../styles/styles.css';
 class NbaRoute extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       _game_array: [],
-      isLoading: false,
     };
     this.getNbaData_balldontlie = this.getNbaData_balldontlie.bind(this);
   }
@@ -83,45 +83,13 @@ class NbaRoute extends React.Component {
     const { isLoading, _game_array } = this.state;
     return (
       <div className="splash-header">
-        <div className="link-header-div">
+        <div className="contest-div-container-external">
           <p>Nba route</p>
           <p><Link to="/">Home</Link></p>
           <button onClick={() => this.getNbaData_balldontlie()}>
             Click to display current game data!
           </button>
-          {isLoading && <p>Loading...</p>}
-          {_game_array.length > 0 &&
-            _game_array.map((game) => (
-                <table className='contest-table'>
-                <thead>
-                <tr>
-                    <th>Team</th>
-                    <th>Score</th>
-                </tr>
-                </thead>
-                <tbody key={game.id}>
-                <tr>
-                    <td>
-                        <div className='contest-table-body'>
-                        <img src={teamLogos[game.home_team.abbreviation]} alt={game.home_team.full_name} />
-                        <p>{game.home_team.abbreviation}</p>
-                        </div>
-                    </td>
-                    <td>{game.home_team_score}</td>
-                </tr>
-                <tr>
-                    <td>
-                        <div className='contest-table-body'>
-                        <img src={teamLogos[game.visitor_team.abbreviation]} alt={game.visitor_team.full_name} />
-                        <p>{game.visitor_team.abbreviation}</p>
-                        </div>
-                    </td>
-                    <td>{game.visitor_team_score}</td>
-                </tr>
-                </tbody>
-                </table>
-            ))
-            }
+            <ContestTable teamLogos={teamLogos} games={_game_array} />
         </div>
       </div>
     );
