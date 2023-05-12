@@ -20,13 +20,14 @@
     text-transform: uppercase;
     font-weight: normal;
     letter-spacing: 1.8px;
-    background: linear-gradient(to bottom right,
+    /* background: linear-gradient(to bottom right,
     var(--primary-color),
     var(--secondary-color),
     var(--tertiary-color),
     var(--quaternary-color),
     var(--quinary-color)
-  );
+  ); */
+    background: rgb(36, 36, 36);
     height: 100%;
     margin: 0;
     padding: 0;
