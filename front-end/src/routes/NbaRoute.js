@@ -2,24 +2,29 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import ContestTable from '../components/ContestTable';
 import LiveChart from '../components/LiveChart';
+import Calendar from 'react-calendar';
 import '../styles/styles.css';
+import 'react-calendar/dist/Calendar.css';
 class NbaRoute extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       _game_array: [],
       _live_chart_render: false,
+      _showCalendar: false,
     };
     this.getNbaData_balldontlie = this.getNbaData_balldontlie.bind(this);
     this.handleDisplayLiveOddsData = this.handleDisplayLiveOddsData.bind(this);
+    this.handleSelectDate = this.handleSelectDate.bind(this);
+    this.handleToggleCalendar = this.handleToggleCalendar.bind(this);
   }
 
-  async getNbaData_balldontlie() {
+  async getNbaData_balldontlie(dateObj) {
     //can only fetch IF the selectData states passed checks...
     //TODO:
     //Season could incrue bugs IF the month is around december 2022 for example
     const baseAPI = 'https://www.balldontlie.io/api/v1/games?';
-    const today = new Date();
+    const today = dateObj;
     const year = today.getFullYear();
     const season = today.getFullYear() - 1;
     const month = ('0' + (today.getMonth() + 1)).slice(-2);
@@ -73,6 +78,18 @@ class NbaRoute extends React.Component {
       });
     return externResponse;
   }
+  async handleSelectDate(date) {
+    const month = date.getMonth(); //getMonth() returns 0-based index
+    const day = date.getDate();
+    const year = date.getFullYear();
+    let dateObj = new Date(year, month, day)
+    let awaitData = await this.getNbaData_balldontlie(dateObj);
+  }
+  handleToggleCalendar() {
+    this.setState((prevState) => ({
+      _showCalendar: !prevState._showCalendar, // toggle the showCalendar state
+    }));
+  };
   render() {
     const teamLogos = {
         ATL: require('../nba_logos/ATL.png'),
@@ -112,9 +129,16 @@ class NbaRoute extends React.Component {
         <div className="contest-div-container-external">
           <p>Nba route</p>
           <p><Link to="/">Home</Link></p>
-          <button onClick={() => this.getNbaData_balldontlie()}>
-            Click to display current game data!
-          </button>
+            <div className="dropdown-container">
+              <button onClick={this.handleToggleCalendar}>
+                Click to select a date
+              </button>
+              {this.state._showCalendar && (
+                <div className="calendar-dropdown">
+                  <Calendar onChange={this.handleSelectDate} />
+                </div>
+              )}
+            </div>
             <div className='contest-div-container'>
                 {_game_array.length > 0 &&
                     _game_array.map((game) => (
