@@ -20,9 +20,8 @@ class NbaRoute extends React.Component {
   }
 
   async getNbaData_balldontlie(dateObj) {
-    //can only fetch IF the selectData states passed checks...
-    //TODO:
-    //Season could incrue bugs IF the month is around december 2022 for example
+
+    //Api setup
     const baseAPI = 'https://www.balldontlie.io/api/v1/games?';
     const today = dateObj;
     const year = today.getFullYear();
@@ -42,7 +41,6 @@ class NbaRoute extends React.Component {
       });
       return data;
     }
-
     const externResponse = await fetch(fullAPI)
       .then(async (response) => {
         const data = await response.json();
@@ -56,6 +54,7 @@ class NbaRoute extends React.Component {
         this.setState({
           _game_array: game_array,
         });
+        //Store in the cache
         sessionStorage.setItem(fullAPI, JSON.stringify(data));
         return data;
       })
