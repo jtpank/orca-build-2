@@ -4,8 +4,12 @@ export default function setCache(key, value) {
     //store cache
 }
 export default function getCache(key, value) {
-    //store cache
+    //get cache
 }
 export default function clearCache (key, value) {
-    //store cache
+    //clear cache
+    //something of this form
+    // setInterval(() => {
+    //     sessionStorage.clear();
+    //   }, 60 * 60 * 1000); // 1 hour in milliseconds
 }
