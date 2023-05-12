@@ -31,6 +31,18 @@ class NbaRoute extends React.Component {
     const day = ('0' + today.getDate()).slice(-2);
     const date = `${year}-${month}-${day}`;
     const fullAPI = baseAPI + 'seasons[]=' + season + '&' + 'dates[]=' + date;
+
+    //Check cache first
+    const cachedResponse = sessionStorage.getItem(fullAPI);
+    if (cachedResponse) {
+      const data = JSON.parse(cachedResponse);
+      let game_array = data.data;
+      this.setState({
+        _game_array: game_array,
+      });
+      return data;
+    }
+
     const externResponse = await fetch(fullAPI)
       .then(async (response) => {
         const data = await response.json();
@@ -44,6 +56,7 @@ class NbaRoute extends React.Component {
         this.setState({
           _game_array: game_array,
         });
+        sessionStorage.setItem(fullAPI, JSON.stringify(data));
         return data;
       })
       .catch((error) => {
