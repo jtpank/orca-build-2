@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import ContestTable from '../components/ContestTable';
 import LiveChart from '../components/LiveChart';
+import OddsTable from '../components/OddsTable';
 import Calendar from 'react-calendar';
 import '../styles/styles.css';
 import 'react-calendar/dist/Calendar.css';
@@ -14,7 +15,10 @@ class NbaRoute extends React.Component {
       _live_chart_render: false,
       _showCalendar: false,
       _dateSelect: {},
-      _pre_game_h2h: []
+      _pre_game_h2h: [],
+      _current_home_team: "",
+      _current_away_team: "",
+
     };
     this.getNbaData_balldontlie = this.getNbaData_balldontlie.bind(this);
     this.getNbaData_theoddsapi = this.getNbaData_theoddsapi.bind(this);
@@ -97,9 +101,10 @@ class NbaRoute extends React.Component {
       let dataDict = dataArray[i];
       if(dataDict.home_team == homeTeam && dataDict.away_team == awayTeam)
       {
-        console.log(dataDict);
         this.setState({
-          _pre_game_h2h: dataDict.bookmakers
+          _pre_game_h2h: dataDict.bookmakers,
+          _current_home_team: homeTeam,
+          _current_away_team: awayTeam,
         });
       }
     }
@@ -110,7 +115,7 @@ class NbaRoute extends React.Component {
     const formattedStartDate = dateObj.toISOString().substring(0, 19) + 'Z';
     //want to search in range [formattedDate, formattedDate+24 hours)
     const apiKey = process.env.REACT_APP_ODDS_API_API_KEY;
-    const fullAPI = `${oddsAPI}?apiKey=${apiKey}&regions=us&markets=h2h&oddsFormat=american&date=${formattedStartDate}`;
+    const fullAPI = `${oddsAPI}?apiKey=${apiKey}&regions=us&markets=h2h,spreads&oddsFormat=american&date=${formattedStartDate}`;
     //Check cache first
     const cachedResponse = sessionStorage.getItem(fullAPI);
     if (cachedResponse) {
@@ -159,7 +164,7 @@ class NbaRoute extends React.Component {
     }));
   };
   render() {
-    const { _game_array, _live_chart_render, _pre_game_h2h } = this.state;
+    const { _game_array, _live_chart_render, _pre_game_h2h,_current_away_team, _current_home_team } = this.state;
     const teamLogos = getNbaTeamLogoPaths();
     // const cacheSizeInBytes = JSON.stringify(sessionStorage).length;
     // const cacheSizeInMB = (cacheSizeInBytes / (1024 * 1024)).toFixed(2);
@@ -194,33 +199,14 @@ class NbaRoute extends React.Component {
             </div>
             {_live_chart_render &&
                 <LiveChart
-
                 ></LiveChart> &&
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Bookmaker</th>
-                      <th>Home Team Moneyline</th>
-                      <th>Away Team Moneyline</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    { _pre_game_h2h.length > 0 ? (
-                      _pre_game_h2h.map((bookmaker) => (
-                        <tr key={bookmaker.id}>
-                          <td>{bookmaker.title}</td>
-                          <td>{bookmaker.markets[0].outcomes[0].price}</td>
-                          <td>{bookmaker.markets[0].outcomes[1].price}</td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan="3">Loading...</td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-  }
+                <OddsTable
+                preGameH2h={this.state._pre_game_h2h}
+                currentAwayTeam={this.state._current_away_team}
+                currentHomeTeam={this.state._current_home_team}
+                >
+                </OddsTable>
+            }
         </div>
       </div>
     );

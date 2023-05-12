@@ -261,3 +261,21 @@
     align-items: center;
   }
   
+  .odds-data-class {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .odds-data-class th, .odds-data-class td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .odds-data-class th {
+    background-color: #383838;
+  }
+  
+  .odds-data-class tr:nth-child(even) {
+    background-color: #202020;
+  }
