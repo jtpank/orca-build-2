@@ -22,15 +22,30 @@ class OddsTable extends Component {
         this.props.preGameH2h.sort((a, b) => {
           let aValue = this.getSortValue(a, sortColumn);
           let bValue = this.getSortValue(b, sortColumn);
+          if (sortColumn === 'bookmaker') {
+            aValue = a.title.toLowerCase();
+            bValue = b.title.toLowerCase();
+          }
           if (sortOrder === 'desc') {
             [aValue, bValue] = [bValue, aValue];
           }
-          if (aValue === 'N/A') {
+        //   if (aValue === 'N/A') {
+        //     return 1;
+        //   } else if (bValue === 'N/A') {
+        //     return -1;
+        //   } else {
+        //     return aValue - bValue;
+        //   }
+        if (aValue === 'N/A') {
             return 1;
           } else if (bValue === 'N/A') {
             return -1;
+          } else if (aValue < bValue) {
+            return -1;
+          } else if (aValue > bValue) {
+            return 1;
           } else {
-            return aValue - bValue;
+            return 0;
           }
         });
       }
@@ -53,25 +68,13 @@ class OddsTable extends Component {
         }
       }
   render() {
-    this.props.preGameH2h.sort((a, b) => {
-        let aValue = this.getSortValue(a, this.state.sortColumn);
-        let bValue = this.getSortValue(b, this.state.sortColumn);
-        if (this.state.sortOrder === 'desc') {
-          [aValue, bValue] = [bValue, aValue];
-        }
-        if (aValue === 'N/A') {
-          return 1;
-        } else if (bValue === 'N/A') {
-          return -1
-        }
-    });
     return (
         <div>
             <p>Click on a header to sort!</p>
             <table className='odds-data-class'>
                   <thead>
                     <tr>
-                      <th>Bookmaker</th>
+                      <th onClick={() => this.handleSort('bookmaker')}>Bookmaker</th>
                       <th onClick={() => this.handleSort('homeMoneyline')}>{this.props.currentHomeTeam} Moneyline (Home)</th>
                       <th onClick={() => this.handleSort('awayMoneyline')}>{this.props.currentAwayTeam} Moneyline (Away)</th>
                       <th onClick={() => this.handleSort('homeSpread')}>{this.props.currentHomeTeam} Spread</th>

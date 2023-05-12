@@ -223,30 +223,3 @@ class NbaRoute extends React.Component {
 }
 
 export default NbaRoute;
-
-{/* <div className='contest-div-container'>
-{_game_array.length > 0 &&
-    _game_array.map((game) => (
-        <ContestTable
-        key={game.id}
-        teamLogos={teamLogos} 
-        game={game}
-        date={this.state._dateSelect}
-        handleDisplayLiveOddsData={this.handleDisplayLiveOddsData} 
-        />
-    ))
-}
-</div>
-{_live_chart_render ? (
-<>
-<LiveChart
-></LiveChart>
-<OddsTable
-preGameH2h={this.state._pre_game_h2h}
-currentAwayTeam={this.state._current_away_team}
-currentHomeTeam={this.state._current_home_team}
->
-</OddsTable>
-</>
-): null
-} */}
