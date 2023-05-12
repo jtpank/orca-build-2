@@ -1,0 +1,36 @@
+export default function getNbaTeamLogoPaths()
+{
+    const teamLogos = {
+        ATL: require('../nba_logos/ATL.png'),
+        BKN: require('../nba_logos/BOS.png'),
+        BOS: require('../nba_logos/BOS.png'),
+        CHA: require('../nba_logos/ATL.png'),
+        CHI: require('../nba_logos/ATL.png'),
+        CLE: require('../nba_logos/ATL.png'),
+        DAL: require('../nba_logos/ATL.png'),
+        DEN: require('../nba_logos/DEN.png'),
+        DET: require('../nba_logos/ATL.png'),
+        GSW: require('../nba_logos/GSW.png'),
+        HOU: require('../nba_logos/ATL.png'),
+        IND: require('../nba_logos/ATL.png'),
+        LAC: require('../nba_logos/LAC.png'),
+        LAL: require('../nba_logos/LAL.png'),
+        MEM: require('../nba_logos/MEM.png'),
+        MIA: require('../nba_logos/MIA.png'),
+        MIL: require('../nba_logos/MIL.png'),
+        MIN: require('../nba_logos/ATL.png'),
+        NOP: require('../nba_logos/ATL.png'),
+        NYK: require('../nba_logos/NYK.png'),
+        OKC: require('../nba_logos/ATL.png'),
+        ORL: require('../nba_logos/ATL.png'),
+        PHI: require('../nba_logos/PHI.png'),
+        PHX: require('../nba_logos/PHX.png'),
+        POR: require('../nba_logos/ATL.png'),
+        SAC: require('../nba_logos/SAC.png'),
+        SAS: require('../nba_logos/ATL.png'),
+        TOR: require('../nba_logos/ATL.png'),
+        UTA: require('../nba_logos/ATL.png'),
+        WAS: require('../nba_logos/ATL.png'),
+    };
+    return teamLogos;
+}
