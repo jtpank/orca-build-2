@@ -283,3 +283,23 @@
     cursor: pointer;
     background-color: #f0f0f0;
   }
+
+  .all-contest-data-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .live-chart-container {
+    width: 55%;
+  }
+  
+  .odds-table-container {
+    flex-grow: 1; /* this will make the container take up all available vertical space */
+  }
+  
+  .contest-container-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }

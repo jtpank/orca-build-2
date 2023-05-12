@@ -123,6 +123,7 @@ class NbaRoute extends React.Component {
       let game_array = data.data;
       this.setState({
         _game_array: game_array,
+        _live_chart_render: true,
       });
       //Store in the cache
       sessionStorage.setItem(fullAPI, JSON.stringify(data));
@@ -172,41 +173,49 @@ class NbaRoute extends React.Component {
     return (
       <div className="splash-header">
         <div className="contest-div-container-external">
+        <div className='all-contest-data-container'>
           <p>Nba route</p>
           <p><Link to="/">Home</Link></p>
-            <div className="dropdown-container">
-              <button onClick={this.handleToggleCalendar}>
-                Click to select a date
-              </button>
-              {this.state._showCalendar && (
-                <div className="calendar-dropdown">
-                  <Calendar onChange={this.handleSelectDate} />
-                </div>
-              )}
+            <div className="contest-container-flex">
+              <div className="dropdown-container dropdown-width">
+                <button onClick={this.handleToggleCalendar}>
+                  Click to select a date
+                </button>
+                {this.state._showCalendar && (
+                  <div className="calendar-dropdown">
+                    <Calendar onChange={this.handleSelectDate} />
+                  </div>
+                )}
+              </div>
+              {_live_chart_render ? (
+                  <div className='live-chart-container'>
+                    <LiveChart></LiveChart>
+                  </div>
+                ) : null}
             </div>
-            <div className='contest-div-container'>
-                {_game_array.length > 0 &&
-                    _game_array.map((game) => (
-                        <ContestTable
-                        key={game.id}
-                        teamLogos={teamLogos} 
-                        game={game}
-                        date={this.state._dateSelect}
-                        handleDisplayLiveOddsData={this.handleDisplayLiveOddsData} 
-                        />
-                    ))
-                }
-            </div>
-            {_live_chart_render &&
-                <LiveChart
-                ></LiveChart> &&
+              <div className='contest-div-container'>
+                {_game_array.length > 0 && 
+                _game_array.map((game) => (
+                  <ContestTable
+                    key={game.id}
+                    teamLogos={teamLogos} 
+                    game={game}
+                    date={this.state._dateSelect}
+                    handleDisplayLiveOddsData={this.handleDisplayLiveOddsData} 
+                  />
+                ))}
+              </div>
+            {(this.state._pre_game_h2h && this.state._pre_game_h2h.length > 0)  ? (
+              <div className='odds-table-container'>
                 <OddsTable
-                preGameH2h={this.state._pre_game_h2h}
-                currentAwayTeam={this.state._current_away_team}
-                currentHomeTeam={this.state._current_home_team}
-                >
-                </OddsTable>
-            }
+                  preGameH2h={this.state._pre_game_h2h}
+                  currentAwayTeam={this.state._current_away_team}
+                  currentHomeTeam={this.state._current_home_team}
+                />
+              </div>
+              ) : null}
+          </div>
+
         </div>
       </div>
     );
@@ -215,3 +224,29 @@ class NbaRoute extends React.Component {
 
 export default NbaRoute;
 
+{/* <div className='contest-div-container'>
+{_game_array.length > 0 &&
+    _game_array.map((game) => (
+        <ContestTable
+        key={game.id}
+        teamLogos={teamLogos} 
+        game={game}
+        date={this.state._dateSelect}
+        handleDisplayLiveOddsData={this.handleDisplayLiveOddsData} 
+        />
+    ))
+}
+</div>
+{_live_chart_render ? (
+<>
+<LiveChart
+></LiveChart>
+<OddsTable
+preGameH2h={this.state._pre_game_h2h}
+currentAwayTeam={this.state._current_away_team}
+currentHomeTeam={this.state._current_home_team}
+>
+</OddsTable>
+</>
+): null
+} */}
