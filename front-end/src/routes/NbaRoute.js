@@ -13,7 +13,8 @@ class NbaRoute extends React.Component {
       _game_array: [],
       _live_chart_render: false,
       _showCalendar: false,
-      _dateSelect: {}
+      _dateSelect: {},
+      _pre_game_h2h: []
     };
     this.getNbaData_balldontlie = this.getNbaData_balldontlie.bind(this);
     this.getNbaData_theoddsapi = this.getNbaData_theoddsapi.bind(this);
@@ -84,16 +85,29 @@ class NbaRoute extends React.Component {
   }
   async handleDisplayLiveOddsData(homeTeam, awayTeam, date) 
   {
-    let awaitData = await this.getNbaData_theoddsapi(date);
+    let dataDict = await this.getNbaData_theoddsapi(date);
+    //after get data, parse it for the corresponding games
+    //so we only search for commence_time in a certain range
+    let dataArray = dataDict.data;
+    for(let i = 0; i < dataArray.length; i++)
+    {
+      let dataDict = dataArray[i];
+      if(dataDict.home_team == homeTeam && dataDict.away_team == awayTeam)
+      {
+        console.log(dataDict);
+        this.setState({
+          _pre_game_h2h: dataDict.bookmakers
+        });
+      }
+    }
+
   }
   async getNbaData_theoddsapi(dateObj) {
     const oddsAPI = 'https://api.the-odds-api.com/v4/sports/basketball_nba/odds-history';
-    //hours - 7
-    dateObj.setHours(23 - 7, 0, 0); // set to 12pm
-    const formattedDate = dateObj.toISOString();
-    console.log(formattedDate)
+    const formattedStartDate = dateObj.toISOString().substring(0, 19) + 'Z';
+    //want to search in range [formattedDate, formattedDate+24 hours)
     const apiKey = process.env.REACT_APP_ODDS_API_API_KEY;
-    const fullAPI = `${oddsAPI}?apiKey=${apiKey}&regions=us&markets=h2h&oddsFormat=american&date=${formattedDate}`;
+    const fullAPI = `${oddsAPI}?apiKey=${apiKey}&regions=us&markets=h2h&oddsFormat=american&date=${formattedStartDate}`;
     //Check cache first
     const cachedResponse = sessionStorage.getItem(fullAPI);
     if (cachedResponse) {
@@ -115,7 +129,6 @@ class NbaRoute extends React.Component {
           const error = (data && data.message) || response.statusText;
           return Promise.reject(error);
         };
-        console.log(data);
         this.setState({
             _live_chart_render: true,
           });
@@ -143,7 +156,7 @@ class NbaRoute extends React.Component {
     }));
   };
   render() {
-    const { _game_array, _live_chart_render } = this.state;
+    const { _game_array, _live_chart_render, _pre_game_h2h } = this.state;
     const teamLogos = getNbaTeamLogoPaths();
     // const cacheSizeInBytes = JSON.stringify(sessionStorage).length;
     // const cacheSizeInMB = (cacheSizeInBytes / (1024 * 1024)).toFixed(2);
@@ -179,7 +192,25 @@ class NbaRoute extends React.Component {
             {_live_chart_render && 
                 <LiveChart
 
-                ></LiveChart>
+                ></LiveChart> &&
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Bookmaker</th>
+                      <th>Home Team Moneyline</th>
+                      <th>Away Team Moneyline</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {_pre_game_h2h.length > 0 && _pre_game_h2h.map((bookmaker) => (
+                      <tr key={bookmaker.id}>
+                        <td>{bookmaker.title}</td>
+                        <td>{bookmaker.markets[0].outcomes[0].price}</td>
+                        <td>{bookmaker.markets[0].outcomes[1].price}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
             }
         </div>
       </div>
