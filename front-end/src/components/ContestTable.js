@@ -3,7 +3,14 @@ import React, { Component } from 'react';
 class ContestTable extends Component {
     constructor(props) {
         super(props);
+        this.handleDisplayClick = this.handleDisplayClick.bind(this);
       }
+    handleDisplayClick() {
+        let date = this.props.date;
+        let homeTeam = this.props.game.home_team;
+        let awayTeam = this.props.game.away_team;
+        this.props.handleDisplayLiveOddsData(homeTeam, awayTeam, date);
+    }
   render() {
     const { teamLogos, game } = this.props;
     return (
@@ -36,7 +43,7 @@ class ContestTable extends Component {
             </tr>
             </tbody>
         </table>
-        <button onClick={this.props.handleDisplayLiveOddsData} >Display Live Odds Data!</button>
+        <button onClick={this.handleDisplayClick} >Display Live Odds Data!</button>
         </div>
     );
   }

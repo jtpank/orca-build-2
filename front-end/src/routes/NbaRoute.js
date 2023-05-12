@@ -13,8 +13,10 @@ class NbaRoute extends React.Component {
       _game_array: [],
       _live_chart_render: false,
       _showCalendar: false,
+      _dateSelect: {}
     };
     this.getNbaData_balldontlie = this.getNbaData_balldontlie.bind(this);
+    this.getNbaData_theoddsapi = this.getNbaData_theoddsapi.bind(this);
     this.handleDisplayLiveOddsData = this.handleDisplayLiveOddsData.bind(this);
     this.handleSelectDate = this.handleSelectDate.bind(this);
     this.handleToggleCalendar = this.handleToggleCalendar.bind(this);
@@ -26,8 +28,16 @@ class NbaRoute extends React.Component {
     const baseAPI = 'https://www.balldontlie.io/api/v1/games?';
     const today = dateObj;
     const year = today.getFullYear();
-    const season = today.getFullYear() - 1;
+    // const season = today.getFullYear();
     const month = ('0' + (today.getMonth() + 1)).slice(-2);
+
+    //default to 'last year'
+    let season = today.getFullYear() - 1;
+    if(month >= 9 && month <= 12)
+    {
+      //otherwise set to 'this year'
+      season = today.getFullYear();
+    }
     const day = ('0' + today.getDate()).slice(-2);
     const date = `${year}-${month}-${day}`;
     const fullAPI = baseAPI + 'seasons[]=' + season + '&' + 'dates[]=' + date;
@@ -65,10 +75,18 @@ class NbaRoute extends React.Component {
       });
     return externResponse;
   }
-  async handleDisplayLiveOddsData(teamID) {
-    const oddsAPI = 'https://api.the-odds-api.com/v4/sports/basketball_nba/odds';
+  async handleDisplayLiveOddsData(homeTeam, awayTeam, date) 
+  {
+    let awaitData = await this.getNbaData_theoddsapi(date);
+  }
+  async getNbaData_theoddsapi(dateObj) {
+    const oddsAPI = 'https://api.the-odds-api.com/v4/sports/basketball_nba/odds-history';
+    //hours - 7
+    dateObj.setHours(23 - 7, 0, 0); // set to 12pm
+    const formattedDate = dateObj.toISOString();
+    console.log(formattedDate)
     const apiKey = process.env.REACT_APP_ODDS_API_API_KEY;
-    const fullAPI = `${oddsAPI}?apiKey=${apiKey}&regions=us&markets=h2h&oddsFormat=american&team=${teamID}`;
+    const fullAPI = `${oddsAPI}?apiKey=${apiKey}&regions=us&markets=h2h&oddsFormat=american&date=${formattedDate}`;
     //Check cache first
     const cachedResponse = sessionStorage.getItem(fullAPI);
     if (cachedResponse) {
@@ -107,6 +125,9 @@ class NbaRoute extends React.Component {
     const day = date.getDate();
     const year = date.getFullYear();
     let dateObj = new Date(year, month, day)
+    this.setState({
+      _dateSelect: date
+    });
     let awaitData = await this.getNbaData_balldontlie(dateObj);
   }
   handleToggleCalendar() {
@@ -141,7 +162,8 @@ class NbaRoute extends React.Component {
                         <ContestTable
                         key={game.id}
                         teamLogos={teamLogos} 
-                        game={game} 
+                        game={game}
+                        date={this.state._dateSelect}
                         handleDisplayLiveOddsData={this.handleDisplayLiveOddsData} 
                         />
                     ))
