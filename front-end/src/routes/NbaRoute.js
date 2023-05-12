@@ -69,7 +69,18 @@ class NbaRoute extends React.Component {
     const oddsAPI = 'https://api.the-odds-api.com/v4/sports/basketball_nba/odds';
     const apiKey = process.env.REACT_APP_ODDS_API_API_KEY;
     const fullAPI = `${oddsAPI}?apiKey=${apiKey}&regions=us&markets=h2h&oddsFormat=american&team=${teamID}`;
-    
+    //Check cache first
+    const cachedResponse = sessionStorage.getItem(fullAPI);
+    if (cachedResponse) {
+      const data = JSON.parse(cachedResponse);
+      let game_array = data.data;
+      this.setState({
+        _game_array: game_array,
+      });
+      //Store in the cache
+      sessionStorage.setItem(fullAPI, JSON.stringify(data));
+      return data;
+    }
     const externResponse = await fetch(fullAPI)
       .then(async (response) => {
         const data = await response.json();
@@ -106,6 +117,9 @@ class NbaRoute extends React.Component {
   render() {
     const { _game_array, _live_chart_render } = this.state;
     const teamLogos = getNbaTeamLogoPaths();
+    // const cacheSizeInBytes = JSON.stringify(sessionStorage).length;
+    // const cacheSizeInMB = (cacheSizeInBytes / (1024 * 1024)).toFixed(2);
+    // console.log(`Session storage cache size: ${cacheSizeInMB} MB`);
     return (
       <div className="splash-header">
         <div className="contest-div-container-external">
