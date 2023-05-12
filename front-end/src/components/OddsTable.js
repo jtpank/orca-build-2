@@ -72,8 +72,8 @@ class OddsTable extends Component {
                   <thead>
                     <tr>
                       <th>Bookmaker</th>
-                      <th onClick={() => this.handleSort('homeMoneyline')}>{this.props.currentHomeTeam} Moneyline</th>
-                      <th onClick={() => this.handleSort('awayMoneyline')}>{this.props.currentAwayTeam} Moneyline</th>
+                      <th onClick={() => this.handleSort('homeMoneyline')}>{this.props.currentHomeTeam} Moneyline (Home)</th>
+                      <th onClick={() => this.handleSort('awayMoneyline')}>{this.props.currentAwayTeam} Moneyline (Away)</th>
                       <th onClick={() => this.handleSort('homeSpread')}>{this.props.currentHomeTeam} Spread</th>
                       <th onClick={() => this.handleSort('homeSpreadOdds')}>{this.props.currentHomeTeam} Spread Odds</th>
                       <th onClick={() => this.handleSort('awaySpread')}>{this.props.currentAwayTeam} Spread</th>
