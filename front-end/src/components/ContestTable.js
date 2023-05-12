@@ -43,7 +43,7 @@ class ContestTable extends Component {
             </tr>
             </tbody>
         </table>
-        <button onClick={this.handleDisplayClick} >Display Live Odds Data!</button>
+        <button onClick={this.handleDisplayClick}>Display Pre-Game Odds Data!</button>
         </div>
     );
   }

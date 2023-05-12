@@ -85,6 +85,9 @@ class NbaRoute extends React.Component {
   }
   async handleDisplayLiveOddsData(homeTeam, awayTeam, date) 
   {
+    this.setState({
+      _pre_game_h2h: []
+    })
     let dataDict = await this.getNbaData_theoddsapi(date);
     //after get data, parse it for the corresponding games
     //so we only search for commence_time in a certain range
@@ -189,7 +192,7 @@ class NbaRoute extends React.Component {
                     ))
                 }
             </div>
-            {_live_chart_render && 
+            {_live_chart_render &&
                 <LiveChart
 
                 ></LiveChart> &&
@@ -202,16 +205,22 @@ class NbaRoute extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {_pre_game_h2h.length > 0 && _pre_game_h2h.map((bookmaker) => (
-                      <tr key={bookmaker.id}>
-                        <td>{bookmaker.title}</td>
-                        <td>{bookmaker.markets[0].outcomes[0].price}</td>
-                        <td>{bookmaker.markets[0].outcomes[1].price}</td>
+                    { _pre_game_h2h.length > 0 ? (
+                      _pre_game_h2h.map((bookmaker) => (
+                        <tr key={bookmaker.id}>
+                          <td>{bookmaker.title}</td>
+                          <td>{bookmaker.markets[0].outcomes[0].price}</td>
+                          <td>{bookmaker.markets[0].outcomes[1].price}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="3">Loading...</td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </table>
-            }
+  }
         </div>
       </div>
     );
