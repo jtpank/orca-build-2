@@ -26,21 +26,28 @@ class NbaRoute extends React.Component {
 
     //Api setup
     const baseAPI = 'https://www.balldontlie.io/api/v1/games?';
-    const today = dateObj;
-    const year = today.getFullYear();
+    const year = dateObj.getFullYear();
     // const season = today.getFullYear();
-    const month = ('0' + (today.getMonth() + 1)).slice(-2);
+    const month = ('0' + (dateObj.getMonth() + 1)).slice(-2);
 
     //default to 'last year'
-    let season = today.getFullYear() - 1;
+    let season = dateObj.getFullYear() - 1;
     if(month >= 9 && month <= 12)
     {
       //otherwise set to 'this year'
-      season = today.getFullYear();
+      season = dateObj.getFullYear();
     }
-    const day = ('0' + today.getDate()).slice(-2);
+    const day = ('0' + dateObj.getDate()).slice(-2);
     const date = `${year}-${month}-${day}`;
     const fullAPI = baseAPI + 'seasons[]=' + season + '&' + 'dates[]=' + date;
+
+    //check date is not in future
+    const today = new Date();
+    if(dateObj > today)
+    {
+      console.log('future date not available');
+      return;
+    }
 
     //Check cache first
     const cachedResponse = sessionStorage.getItem(fullAPI);
