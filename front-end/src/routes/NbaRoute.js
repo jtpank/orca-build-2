@@ -19,11 +19,14 @@ class NbaRoute extends React.Component {
       _current_home_team: "",
       _current_away_team: "",
       _live_chart_odds_data: [],
+      _live_chart_timestamps: [],
+      _live_chart_current_game_commence_time: "",
       _live_chart_current_date: {},
 
     };
     this.getNbaData_balldontlie = this.getNbaData_balldontlie.bind(this);
     this.getNbaData_theoddsapi = this.getNbaData_theoddsapi.bind(this);
+    this.getNbaData_theoddsapi_isoString = this.getNbaData_theoddsapi_isoString.bind(this);
     this.handleDisplayLiveOddsData = this.handleDisplayLiveOddsData.bind(this);
     this.handleSelectDate = this.handleSelectDate.bind(this);
     this.handleToggleCalendar = this.handleToggleCalendar.bind(this);
@@ -92,24 +95,73 @@ class NbaRoute extends React.Component {
   async handleDisplayLiveOddsData(homeTeam, awayTeam) 
   {
     this.setState({
-      _pre_game_h2h: []
+      _pre_game_h2h: [],
+      _live_chart_odds_data: [],
+      _live_chart_timestamps: [],
+
     })
     let dataDict = await this.getNbaData_theoddsapi(this.state._dateSelect);
     //after get data, parse it for the corresponding games
     //so we only search for commence_time in a certain range
     let dataArray = dataDict.data;
-    console.log(dataDict);
+    let currentDateTime = dataDict.next_timestamp;
+    console.log("next_timestamp: ", currentDateTime);
+    let commenceDateIsoTimeString;
+    let arrayPosition = 0;
+    //This is getting the very 'first' timestamp for odds data
     for(let i = 0; i < dataArray.length; i++)
     {
       let dataDict = dataArray[i];
       if(dataDict.home_team == homeTeam && dataDict.away_team == awayTeam)
       {
+        //Get and store the commenct time stamp
+        arrayPosition = i;
+        commenceDateIsoTimeString = dataDict.commence_time;
+        // commenceDateObj.setHours(commenceDateObj.getHours()+7, commenceDateObj.getMinutes(), 0);
+        // console.log("commenceDateObj in for loop:")
+        console.log("commence date: ", commenceDateIsoTimeString)
         this.setState({
           _pre_game_h2h: dataDict.bookmakers,
           _current_home_team: homeTeam,
           _current_away_team: awayTeam,
+          _live_chart_current_game_commence_time: commenceDateIsoTimeString,
         });
       }
+    }
+    console.log(dataDict)
+    //Now we have the commence time stamp for the appropriate game
+    //want to iterate over all the timestamps (next_timestamp) until the commence time
+    // and store that data
+
+
+    //after get data, parse it for the corresponding games
+    //so we only search for commence_time in a certain range
+    //Only an hour before**
+    const dateObj = new Date(currentDateTime);
+    const offset = -1 * 60;
+    const adjustedDateObj = new Date(dateObj.getTime() + (offset * 1000));
+    let datadict2 = await this.getNbaData_theoddsapi(adjustedDateObj);
+    let currentDateTime2 = datadict2.timestamp;
+
+
+
+    while(new Date(currentDateTime2) <= new Date(commenceDateIsoTimeString))
+    {
+      let tempDataDict = await this.getNbaData_theoddsapi_isoString(currentDateTime);
+      //Now we have to find the right game
+      let dataArray = tempDataDict.data;
+      console.log("inside while loop")
+      let dataDict = dataArray[arrayPosition];
+      console.log(dataDict);
+      if(dataDict.home_team == homeTeam && dataDict.away_team == awayTeam)
+      {
+        this.setState(prevState => ({
+          _live_chart_odds_data: [...prevState._live_chart_odds_data, dataDict.bookmakers],
+          _live_chart_timestamps: [...prevState._live_chart_timestamps, currentDateTime]
+        }));
+      }
+      //now set currentDateTime
+      currentDateTime = tempDataDict.next_timestamp;
     }
 
   }
@@ -122,6 +174,41 @@ class NbaRoute extends React.Component {
     //want to search in range [formattedDate, formattedDate+24 hours)
     const apiKey = process.env.REACT_APP_ODDS_API_API_KEY;
     const fullAPI = `${oddsAPI}?apiKey=${apiKey}&regions=us&markets=h2h,spreads&oddsFormat=american&date=${formattedStartDate}`;
+    //Check cache first
+    const cachedResponse = sessionStorage.getItem(fullAPI);
+    if (cachedResponse) {
+      const data = JSON.parse(cachedResponse);
+      //Store in the cache
+      sessionStorage.setItem(fullAPI, JSON.stringify(data));
+      this.setState({
+        _live_chart_render: true,
+      });
+      return data;
+    }
+    const externResponse = await fetch(fullAPI)
+      .then(async (response) => {
+        const data = await response.json();
+        // check for error response
+        if (!response.ok) {
+          // get error message from body or default to response statusText
+          const error = (data && data.message) || response.statusText;
+          return Promise.reject(error);
+        };
+        this.setState({
+          _live_chart_render: true,
+        });
+        return data;
+      })
+      .catch((error) => {
+        //this.setState({ errorMessage: error.toString() });
+        console.error('There was an error!', error);
+      });
+    return externResponse;
+  }
+  async getNbaData_theoddsapi_isoString(dateStr) {
+    const oddsAPI = 'https://api.the-odds-api.com/v4/sports/basketball_nba/odds-history';
+    const apiKey = process.env.REACT_APP_ODDS_API_API_KEY;
+    const fullAPI = `${oddsAPI}?apiKey=${apiKey}&regions=us&markets=h2h,spreads&dateFormat=iso&oddsFormat=american&date=${dateStr}`;
     //Check cache first
     const cachedResponse = sessionStorage.getItem(fullAPI);
     if (cachedResponse) {
@@ -198,7 +285,8 @@ class NbaRoute extends React.Component {
               {_live_chart_render ? (
                   <div className='live-chart-container'>
                     <LiveChart
-                    preGameH2h={this.state._pre_game_h2h}
+                    liveChartOddsData={this.state._live_chart_odds_data}
+                    liveChartTimeStamps={this.state._live_chart_timestamps}
                     currentAwayTeam={this.state._current_away_team}
                     currentHomeTeam={this.state._current_home_team}
                     ></LiveChart>

@@ -16,28 +16,44 @@ class LiveChart extends Component {
                   borderColor: "#f44336",
                   tension: 0.1,
                 },
-                // {
-                //   label: "Dataset 2",
-                //   data: [4, 9, 10, 15, 12, 8, 3],
-                //   fill: false,
-                //   borderColor: "#2196f3",
-                //   tension: 0.1,
-                // },
               ],
             },
             _labelName:"<Example Label>",
           };
+          this.updateChart = this.updateChart.bind(this);
       }
     componentDidMount() {
-    // this.updateChart();
-    // setInterval(this.updateChart, 30000);
+      Chart.register(CategoryScale);
     }
-    async updateChart() {
-        // const data = await this.props.handleFetchCurrentOddsDataForChart(this.props.liveChartDateSelect);
-        // this.setState({ data });
+    componentDidUpdate(prevProps) {
+      if (prevProps.liveChartOddsData !== this.props.liveChartOddsData) {
+        let new_data = [];
+        if (this.props.liveChartOddsData && this.props.liveChartOddsData.length > 0) 
+        {
+          // console.log( this.props.liveChartOddsData)
+          new_data = this.props.liveChartOddsData.map((element) => 
+          element[0].markets[0].outcomes[0].price
+          );
+        }
+        console.log(new_data)
+        this.updateChart(new_data, this.props.liveChartTimeStamps);
+      }
+    }
+    updateChart(new_data, new_labels) {
+      this.setState(prevState => ({
+        _chartData: {
+          ...prevState._chartData,
+          labels: new_labels,
+          datasets: [
+            {
+              ...prevState._chartData.datasets[0],
+              data: new_data,
+            }
+          ]
+        }
+      }));
     }
   render() {
-    Chart.register(CategoryScale);
     return (
         <div>
             Live Chart!
