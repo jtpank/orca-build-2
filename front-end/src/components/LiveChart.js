@@ -29,11 +29,11 @@ class LiveChart extends Component {
           };
       }
     componentDidMount() {
-    this.updateChart();
+    // this.updateChart();
     // setInterval(this.updateChart, 30000);
     }
     async updateChart() {
-        const data = await this.props.handleFetchCurrentOddsDataForChart();
+        // const data = await this.props.handleFetchCurrentOddsDataForChart(this.props.liveChartDateSelect);
         // this.setState({ data });
     }
   render() {
