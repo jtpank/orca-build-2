@@ -47,7 +47,7 @@ class NbaRoute extends React.Component {
     const day = ('0' + dateObj.getDate()).slice(-2);
     const date = `${year}-${month}-${day}`;
     const fullAPI = baseAPI + 'seasons[]=' + season + '&' + 'dates[]=' + date;
-
+    console.log(fullAPI);
     //check date is not in future
     const today = new Date();
     if(dateObj > today)
@@ -89,16 +89,15 @@ class NbaRoute extends React.Component {
       });
     return externResponse;
   }
-  async handleDisplayLiveOddsData(homeTeam, awayTeam, date) 
+  async handleDisplayLiveOddsData(homeTeam, awayTeam) 
   {
     this.setState({
       _pre_game_h2h: []
     })
-    let dataDict = await this.getNbaData_theoddsapi(date);
+    let dataDict = await this.getNbaData_theoddsapi(this.state._dateSelect);
     //after get data, parse it for the corresponding games
     //so we only search for commence_time in a certain range
     let dataArray = dataDict.data;
-    console.log(date);
     console.log(dataDict);
     for(let i = 0; i < dataArray.length; i++)
     {
@@ -116,9 +115,10 @@ class NbaRoute extends React.Component {
   }
   async getNbaData_theoddsapi(dateObj) {
     const oddsAPI = 'https://api.the-odds-api.com/v4/sports/basketball_nba/odds-history';
-    dateObj.setHours(dateObj.getHours()-7,0,0);
-    const formattedStartDate = dateObj.toISOString().substring(0, 19) + 'Z';
-    console.log(formattedStartDate)
+    let tempDateObj = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
+    tempDateObj.setHours(tempDateObj.getHours()-7,30,0);
+    const formattedStartDate = tempDateObj.toISOString().substring(0, 19) + 'Z';
+    // console.log(formattedStartDate)
     //want to search in range [formattedDate, formattedDate+24 hours)
     const apiKey = process.env.REACT_APP_ODDS_API_API_KEY;
     const fullAPI = `${oddsAPI}?apiKey=${apiKey}&regions=us&markets=h2h,spreads&oddsFormat=american&date=${formattedStartDate}`;
@@ -157,10 +157,10 @@ class NbaRoute extends React.Component {
     const month = date.getMonth(); //getMonth() returns 0-based index
     const day = date.getDate();
     const year = date.getFullYear();
-    let dateObj = new Date(year, month, day)
+    let dateObj = new Date(year, month, day);
     this.setState({
-      _dateSelect: date,
-      _live_chart_current_date: date,
+      _dateSelect: dateObj,
+      _live_chart_current_date: dateObj,
     });
     let awaitData = await this.getNbaData_balldontlie(dateObj);
   }
@@ -212,7 +212,6 @@ class NbaRoute extends React.Component {
                     key={game.id}
                     teamLogos={teamLogos} 
                     game={game}
-                    date={this.state._dateSelect}
                     handleDisplayLiveOddsData={this.handleDisplayLiveOddsData} 
                   />
                 ))}

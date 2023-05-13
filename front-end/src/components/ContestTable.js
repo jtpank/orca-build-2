@@ -6,10 +6,9 @@ class ContestTable extends Component {
         this.handleDisplayClick = this.handleDisplayClick.bind(this);
       }
     handleDisplayClick() {
-        let date = this.props.date;
         let homeTeam = this.props.game.home_team.full_name;
         let awayTeam = this.props.game.visitor_team.full_name;
-        this.props.handleDisplayLiveOddsData(homeTeam, awayTeam, date);
+        this.props.handleDisplayLiveOddsData(homeTeam, awayTeam);
     }
   render() {
     const { teamLogos, game } = this.props;
