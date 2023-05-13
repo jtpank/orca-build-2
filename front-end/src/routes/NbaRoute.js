@@ -25,6 +25,7 @@ class NbaRoute extends React.Component {
     this.handleDisplayLiveOddsData = this.handleDisplayLiveOddsData.bind(this);
     this.handleSelectDate = this.handleSelectDate.bind(this);
     this.handleToggleCalendar = this.handleToggleCalendar.bind(this);
+    this.fetchCurrentOddsDataForChart = this.fetchCurrentOddsDataForChart.bind(this);
   }
 
   async getNbaData_balldontlie(dateObj) {
@@ -163,7 +164,50 @@ class NbaRoute extends React.Component {
     this.setState((prevState) => ({
       _showCalendar: !prevState._showCalendar, // toggle the showCalendar state
     }));
-  };
+  }
+  async handleFetchCurrentOddsDataForChart(nextDateTime) {
+    let returnData = await this.fetchCurrentOddsDataForChart(nextDateTime);
+  }
+  async fetchCurrentOddsDataForChart(nextDateTime) {
+    const oddsAPI = 'https://api.the-odds-api.com/v4/sports/basketball_nba/odds-history';
+    const formattedStartDate = nextDateTime.toISOString().substring(0, 19) + 'Z';
+    //want to search in range [formattedDate, formattedDate+24 hours)
+    const apiKey = process.env.REACT_APP_ODDS_API_API_KEY;
+    const fullAPI = `${oddsAPI}?apiKey=${apiKey}&regions=us&markets=h2h,spreads&oddsFormat=american&date=${formattedStartDate}`;
+    //Check cache first
+    const cachedResponse = sessionStorage.getItem(fullAPI);
+    if (cachedResponse) {
+      const data = JSON.parse(cachedResponse);
+      let game_array = data.data;
+      // this.setState({
+      //   _game_array: game_array,
+      //   _live_chart_render: true,
+      // });
+      //Store in the cache
+      sessionStorage.setItem(fullAPI, JSON.stringify(data));
+      return data;
+    }
+    const externResponse = await fetch(fullAPI)
+      .then(async (response) => {
+        const data = await response.json();
+        // check for error response
+        if (!response.ok) {
+          // get error message from body or default to response statusText
+          const error = (data && data.message) || response.statusText;
+          return Promise.reject(error);
+        };
+        // this.setState({
+        //     _live_chart_render: true,
+        //   });
+        return data;
+      })
+      .catch((error) => {
+        console.error('There was an error!', error);
+      });
+    return externResponse;
+  }
+
+
   render() {
     const { _game_array, _live_chart_render, _pre_game_h2h,_current_away_team, _current_home_team } = this.state;
     const teamLogos = getNbaTeamLogoPaths();
@@ -189,7 +233,12 @@ class NbaRoute extends React.Component {
               </div>
               {_live_chart_render ? (
                   <div className='live-chart-container'>
-                    <LiveChart></LiveChart>
+                    <LiveChart
+                    preGameH2h={this.state._pre_game_h2h}
+                    currentAwayTeam={this.state._current_away_team}
+                    currentHomeTeam={this.state._current_home_team}
+                    handleFetchCurrentOddsDataForChart={this.handleFetchCurrentOddsDataForChart}
+                    ></LiveChart>
                   </div>
                 ) : null}
             </div>

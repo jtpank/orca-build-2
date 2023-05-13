@@ -7,33 +7,33 @@ class LiveChart extends Component {
         super(props);
         this.state = {
             _chartData: {
-              labels: ["January", "February", "March", "April", "May", "June", "July"],
+              labels: [],
               datasets: [
                 {
                   label: "Dataset 1",
-                  data: [12, 19, 3, 5, 2, 3, 15],
+                  data: [],
                   fill: false,
                   borderColor: "#f44336",
                   tension: 0.1,
                 },
-                {
-                  label: "Dataset 2",
-                  data: [4, 9, 10, 15, 12, 8, 3],
-                  fill: false,
-                  borderColor: "#2196f3",
-                  tension: 0.1,
-                },
+                // {
+                //   label: "Dataset 2",
+                //   data: [4, 9, 10, 15, 12, 8, 3],
+                //   fill: false,
+                //   borderColor: "#2196f3",
+                //   tension: 0.1,
+                // },
               ],
             },
             _labelName:"<Example Label>",
           };
       }
     componentDidMount() {
-    // this.updateChart();
+    this.updateChart();
     // setInterval(this.updateChart, 30000);
     }
     async updateChart() {
-        // const data = await this.props.fetchData();
+        const data = await this.props.handleFetchCurrentOddsDataForChart();
         // this.setState({ data });
     }
   render() {
