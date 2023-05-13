@@ -98,7 +98,8 @@ class NbaRoute extends React.Component {
     //after get data, parse it for the corresponding games
     //so we only search for commence_time in a certain range
     let dataArray = dataDict.data;
-    console.log(dataArray);
+    console.log(date);
+    console.log(dataDict);
     for(let i = 0; i < dataArray.length; i++)
     {
       let dataDict = dataArray[i];
@@ -115,7 +116,9 @@ class NbaRoute extends React.Component {
   }
   async getNbaData_theoddsapi(dateObj) {
     const oddsAPI = 'https://api.the-odds-api.com/v4/sports/basketball_nba/odds-history';
+    dateObj.setHours(dateObj.getHours()-7,0,0);
     const formattedStartDate = dateObj.toISOString().substring(0, 19) + 'Z';
+    console.log(formattedStartDate)
     //want to search in range [formattedDate, formattedDate+24 hours)
     const apiKey = process.env.REACT_APP_ODDS_API_API_KEY;
     const fullAPI = `${oddsAPI}?apiKey=${apiKey}&regions=us&markets=h2h,spreads&oddsFormat=american&date=${formattedStartDate}`;
@@ -125,6 +128,9 @@ class NbaRoute extends React.Component {
       const data = JSON.parse(cachedResponse);
       //Store in the cache
       sessionStorage.setItem(fullAPI, JSON.stringify(data));
+      this.setState({
+        _live_chart_render: true,
+      });
       return data;
     }
     const externResponse = await fetch(fullAPI)
@@ -136,6 +142,9 @@ class NbaRoute extends React.Component {
           const error = (data && data.message) || response.statusText;
           return Promise.reject(error);
         };
+        this.setState({
+          _live_chart_render: true,
+        });
         return data;
       })
       .catch((error) => {
