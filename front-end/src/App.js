@@ -51,8 +51,8 @@ class App extends React.Component {
               return Promise.reject(error);
               };
               //Store in the cache
-              sessionStorage.setItem(fullAPI, JSON.stringify(data));
-              return data;
+              sessionStorage.setItem(fullAPI, JSON.stringify(data.data));
+              return data.data;
           }).catch((error) => {
               //this.setState({ errorMessage: error.toString() });
               console.error('There was an error!', error);
