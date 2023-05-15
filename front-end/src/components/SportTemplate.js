@@ -25,6 +25,8 @@ class SportTemplate extends Component {
         let contestBlock = <ContestBlock
                             key={game.id}
                             game={game}
+                            contest_game_id={this.props.contest_game_id}
+                            setContestGameId={this.props.setContestGameId}
                             ></ContestBlock>
         arrayContestBlocks.push(contestBlock);
     }

@@ -3,6 +3,11 @@ import {Link} from 'react-router-dom';
 class ContestBlock extends Component {
     constructor(props) {
         super(props);
+      this.handleClick = this.handleClick.bind(this);
+      }
+      handleClick()
+      {
+        this.props.setContestGameId(this.props.game.id);
       }
   render() {
     const { game } = this.props;
@@ -13,7 +18,7 @@ class ContestBlock extends Component {
             <p>Away Team: {game.away_team}</p>
             <p>Scores: {game.scores}</p>
             <p>
-            <Link to="test-link">Test-link</Link>
+            <Link to="test-link" onClick={this.handleClick}>Test-link</Link>
             </p>
 
         </div>

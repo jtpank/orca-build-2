@@ -25,6 +25,7 @@ class NflRoute extends React.Component {
             sportName={this.props.sportName}
             oddsApiSportKey={this.props.oddsApiSportKey}
             game_array={this.props.game_array}
+            setContestGameId={this.props.setContestGameId}
             handleFetchAndFilter_theOddsApi={this.props.handleFetchAndFilter_theOddsApi}
             ></SportTemplate>
         </div>

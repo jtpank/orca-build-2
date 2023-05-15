@@ -14,7 +14,7 @@ class ContestRoute extends React.Component {
 
     return (
       <div className="splash-header">
-            <p>Contest Route</p>
+            <p>Contest Route for {this.props.contest_game_id}</p>
       </div>
     );
   }

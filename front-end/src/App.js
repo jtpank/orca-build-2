@@ -14,10 +14,12 @@ class App extends React.Component {
     super(props);
     this.state = {
       _game_array: [],
+      _contest_game_id: "",
     }
     this.shouldRenderHeader  = this.shouldRenderHeader.bind(this);
     this.fetchLiveAndUpcomingGames_theOddsApi  = this.fetchLiveAndUpcomingGames_theOddsApi.bind(this);
     this.handleFetchAndFilter_theOddsApi  = this.handleFetchAndFilter_theOddsApi.bind(this);
+    this.setContestGameId = this.setContestGameId.bind(this);
   }
   shouldRenderHeader() {
     if (typeof window !== 'undefined') {
@@ -69,6 +71,12 @@ class App extends React.Component {
       });
       
   }
+  setContestGameId(contestId)
+  {
+    this.setState({
+      _contest_game_id: contestId,
+    })
+  }
 
   render() {
     return (
@@ -86,20 +94,28 @@ class App extends React.Component {
                     sportName={"NBA"}
                     oddsApiSportKey={"basketball_nba"}
                     game_array={this.state._game_array}
+                    setContestGameId={this.setContestGameId}
                     handleFetchAndFilter_theOddsApi={this.handleFetchAndFilter_theOddsApi}
                     />}>
                   </Route>
-                  <Route path="/nba/test-link" element={<ContestRoute></ContestRoute>}/>
+                  <Route path="/nba/test-link" element={
+                    <ContestRoute
+                    contest_game_id={this.state._contest_game_id}
+                    ></ContestRoute>}/>
                   
                   <Route path="/nfl" element={
                     <NflRoute
                     sportName={"NFL"}
                     oddsApiSportKey={"americanfootball_nfl"}
                     game_array={this.state._game_array}
+                    setContestGameId={this.setContestGameId}
                     handleFetchAndFilter_theOddsApi={this.handleFetchAndFilter_theOddsApi}
                     />}>
                   </Route>
-                  <Route path="/nfl/test-link" element={<ContestRoute></ContestRoute>}/>
+                  <Route path="/nfl/test-link" element={
+                    <ContestRoute
+                    contest_game_id={this.state._contest_game_id}
+                    ></ContestRoute>}/>
 
                 </Routes>
             </div>
