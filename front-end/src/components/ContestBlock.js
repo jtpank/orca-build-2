@@ -7,7 +7,7 @@ class ContestBlock extends Component {
   render() {
     const { game } = this.props;
     return (
-        <div>
+        <div className="contest-block">
             <p>Commence time: {game.commence_time}</p>
             <p>Home Team: {game.home_team}</p>
             <p>Away Team: {game.away_team}</p>
