@@ -103,9 +103,10 @@ class NbaRoute extends React.Component {
     let dataDict = await this.getNbaData_theoddsapi(this.state._dateSelect);
     //after get data, parse it for the corresponding games
     //so we only search for commence_time in a certain range
-    let dataArray = dataDict.data;
-    let currentDateTime = dataDict.next_timestamp;
-    console.log("next_timestamp: ", currentDateTime);
+    let dataArray = dataDict;
+    console.log(dataArray)
+    // let currentDateTime = dataDict.next_timestamp;
+    // console.log("next_timestamp: ", currentDateTime);
     let commenceDateIsoTimeString;
     let arrayPosition = 0;
     //This is getting the very 'first' timestamp for odds data
@@ -137,36 +138,36 @@ class NbaRoute extends React.Component {
     //after get data, parse it for the corresponding games
     //so we only search for commence_time in a certain range
     //Only an hour before**
-    const dateObj = new Date(currentDateTime);
-    const offset = -1 * 60;
-    const adjustedDateObj = new Date(dateObj.getTime() + (offset * 1000));
-    let datadict2 = await this.getNbaData_theoddsapi(adjustedDateObj);
-    let currentDateTime2 = datadict2.timestamp;
+    // const dateObj = new Date(currentDateTime);
+    // const offset = -1 * 60;
+    // const adjustedDateObj = new Date(dateObj.getTime() + (offset * 1000));
+    // let datadict2 = await this.getNbaData_theoddsapi(adjustedDateObj);
+    // let currentDateTime2 = datadict2.timestamp;
 
 
 
-    while(new Date(currentDateTime2) <= new Date(commenceDateIsoTimeString))
-    {
-      let tempDataDict = await this.getNbaData_theoddsapi_isoString(currentDateTime);
-      //Now we have to find the right game
-      let dataArray = tempDataDict.data;
-      console.log("inside while loop")
-      let dataDict = dataArray[arrayPosition];
-      console.log(dataDict);
-      if(dataDict.home_team == homeTeam && dataDict.away_team == awayTeam)
-      {
-        this.setState(prevState => ({
-          _live_chart_odds_data: [...prevState._live_chart_odds_data, dataDict.bookmakers],
-          _live_chart_timestamps: [...prevState._live_chart_timestamps, currentDateTime]
-        }));
-      }
-      //now set currentDateTime
-      currentDateTime = tempDataDict.next_timestamp;
-    }
+    // while(new Date(currentDateTime2) <= new Date(commenceDateIsoTimeString))
+    // {
+    //   let tempDataDict = await this.getNbaData_theoddsapi_isoString(currentDateTime);
+    //   //Now we have to find the right game
+    //   let dataArray = tempDataDict.data;
+    //   console.log("inside while loop")
+    //   let dataDict = dataArray[arrayPosition];
+    //   console.log(dataDict);
+    //   if(dataDict.home_team == homeTeam && dataDict.away_team == awayTeam)
+    //   {
+    //     this.setState(prevState => ({
+    //       _live_chart_odds_data: [...prevState._live_chart_odds_data, dataDict.bookmakers],
+    //       _live_chart_timestamps: [...prevState._live_chart_timestamps, currentDateTime]
+    //     }));
+    //   }
+    //   //now set currentDateTime
+    //   currentDateTime = tempDataDict.next_timestamp;
+    // }
 
   }
   async getNbaData_theoddsapi(dateObj) {
-    const oddsAPI = 'https://api.the-odds-api.com/v4/sports/basketball_nba/odds-history';
+    const oddsAPI = 'https://api.the-odds-api.com/v4/sports/basketball_nba/odds';
     let tempDateObj = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
     tempDateObj.setHours(tempDateObj.getHours()-7,30,0);
     const formattedStartDate = tempDateObj.toISOString().substring(0, 19) + 'Z';
@@ -206,7 +207,7 @@ class NbaRoute extends React.Component {
     return externResponse;
   }
   async getNbaData_theoddsapi_isoString(dateStr) {
-    const oddsAPI = 'https://api.the-odds-api.com/v4/sports/basketball_nba/odds-history';
+    const oddsAPI = 'https://api.the-odds-api.com/v4/sports/basketball_nba/odds';
     const apiKey = process.env.REACT_APP_ODDS_API_API_KEY;
     const fullAPI = `${oddsAPI}?apiKey=${apiKey}&regions=us&markets=h2h,spreads&dateFormat=iso&oddsFormat=american&date=${dateStr}`;
     //Check cache first

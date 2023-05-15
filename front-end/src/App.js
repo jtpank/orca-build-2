@@ -4,6 +4,7 @@ import Header from "./routes/Header";
 import Splash from "./routes/Splash";
 import Footer from "./routes/Footer";
 import NbaRoute from './routes/NbaRoute';
+import NflRoute from './routes/NflRoute';
 import './styles/styles.css';
 class App extends React.Component {
   constructor(props){
@@ -33,6 +34,7 @@ class App extends React.Component {
                 <Routes>
                   <Route path="/" element={<Splash/>}/>
                   <Route path="/nba" element={<NbaRoute/>}/>
+                  <Route path="/nfl" element={<NflRoute/>}/>
                 </Routes>
             </div>
             <div className='row'>
