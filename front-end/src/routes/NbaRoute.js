@@ -24,7 +24,8 @@ class NbaRoute extends React.Component {
             <SportTemplate
             sportName={this.props.sportName}
             oddsApiSportKey={this.props.oddsApiSportKey}
-            fetchLiveAndUpcomingGames_theOddsApi={this.props.fetchLiveAndUpcomingGames_theOddsApi}
+            game_array={this.props.game_array}
+            handleFetchAndFilter_theOddsApi={this.props.handleFetchAndFilter_theOddsApi}
             ></SportTemplate>
         </div>
         </div>

@@ -7,15 +7,17 @@ import NbaRoute from './routes/NbaRoute';
 import NflRoute from './routes/NflRoute';
 import ContestRoute from './routes/ContestRoute';
 import buildUrlFor_theOddsApi from './logic/buildUrl.js';
+import filterOddsApiData from './logic/filterOddsApiData.js';
 import './styles/styles.css';
 class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-    
+      _game_array: [],
     }
     this.shouldRenderHeader  = this.shouldRenderHeader.bind(this);
     this.fetchLiveAndUpcomingGames_theOddsApi  = this.fetchLiveAndUpcomingGames_theOddsApi.bind(this);
+    this.handleFetchAndFilter_theOddsApi  = this.handleFetchAndFilter_theOddsApi.bind(this);
   }
   shouldRenderHeader() {
     if (typeof window !== 'undefined') {
@@ -56,6 +58,17 @@ class App extends React.Component {
           return externResponse;
       }
   }
+  async handleFetchAndFilter_theOddsApi(sportField, endpoint, isoCurrentDateTime)
+  {
+      let liveAndUpcomingContests = await this.fetchLiveAndUpcomingGames_theOddsApi(sportField, endpoint, isoCurrentDateTime);
+
+      //TODO: only want the first set of contests, not all future contests
+      let filteredGameArrayData = filterOddsApiData(this.props.sportName, liveAndUpcomingContests);
+      this.setState({
+          _game_array: filteredGameArrayData,
+      });
+      
+  }
 
   render() {
     return (
@@ -72,7 +85,8 @@ class App extends React.Component {
                     <NbaRoute
                     sportName={"NBA"}
                     oddsApiSportKey={"basketball_nba"}
-                    fetchLiveAndUpcomingGames_theOddsApi={this.fetchLiveAndUpcomingGames_theOddsApi}
+                    game_array={this.state._game_array}
+                    handleFetchAndFilter_theOddsApi={this.handleFetchAndFilter_theOddsApi}
                     />}>
                   </Route>
                   <Route path="/nba/test-link" element={<ContestRoute></ContestRoute>}/>
@@ -81,7 +95,8 @@ class App extends React.Component {
                     <NflRoute
                     sportName={"NFL"}
                     oddsApiSportKey={"americanfootball_nfl"}
-                    fetchLiveAndUpcomingGames_theOddsApi={this.fetchLiveAndUpcomingGames_theOddsApi}
+                    game_array={this.state._game_array}
+                    handleFetchAndFilter_theOddsApi={this.handleFetchAndFilter_theOddsApi}
                     />}>
                   </Route>
                   <Route path="/nfl/test-link" element={<ContestRoute></ContestRoute>}/>

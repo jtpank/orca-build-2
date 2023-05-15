@@ -22,9 +22,10 @@ class NflRoute extends React.Component {
         </div>
         <div>
             <SportTemplate
-            sportName={"NFL"}
-            oddsApiSportKey={"americanfootball_nfl"}
-            fetchLiveAndUpcomingGames_theOddsApi={this.props.fetchLiveAndUpcomingGames_theOddsApi}
+            sportName={this.props.sportName}
+            oddsApiSportKey={this.props.oddsApiSportKey}
+            game_array={this.props.game_array}
+            handleFetchAndFilter_theOddsApi={this.props.handleFetchAndFilter_theOddsApi}
             ></SportTemplate>
         </div>
         </div>
