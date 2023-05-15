@@ -22,7 +22,8 @@ class NflRoute extends React.Component {
         </div>
         <div>
             <SportTemplate
-            name={"NFL"}
+            sportName={"NFL"}
+            oddsApiSportKey={"americanfootball_nfl"}
             ></SportTemplate>
         </div>
         </div>
