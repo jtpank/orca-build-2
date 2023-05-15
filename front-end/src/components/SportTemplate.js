@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import buildUrlFor_theOddsApi from '../logic/buildUrl.js';
 import filterOddsApiData from '../logic/filterOddsApiData.js';
 import ContestBlock from './ContestBlock.js';
 class SportTemplate extends Component {

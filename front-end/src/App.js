@@ -68,15 +68,21 @@ class App extends React.Component {
             <div className='row'>
                 <Routes>
                   <Route path="/" element={<Splash/>}/>
-                  <Route path="/nba" element={<NbaRoute
-                  fetchLiveAndUpcomingGames_theOddsApi={this.fetchLiveAndUpcomingGames_theOddsApi}
-                  />}>
+                  <Route path="/nba" element={
+                    <NbaRoute
+                    sportName={"NBA"}
+                    oddsApiSportKey={"basketball_nba"}
+                    fetchLiveAndUpcomingGames_theOddsApi={this.fetchLiveAndUpcomingGames_theOddsApi}
+                    />}>
                   </Route>
                   <Route path="/nba/test-link" element={<ContestRoute></ContestRoute>}/>
                   
-                  <Route path="/nfl" element={<NflRoute
-                  fetchLiveAndUpcomingGames_theOddsApi={this.fetchLiveAndUpcomingGames_theOddsApi}
-                  />}>
+                  <Route path="/nfl" element={
+                    <NflRoute
+                    sportName={"NFL"}
+                    oddsApiSportKey={"americanfootball_nfl"}
+                    fetchLiveAndUpcomingGames_theOddsApi={this.fetchLiveAndUpcomingGames_theOddsApi}
+                    />}>
                   </Route>
                   <Route path="/nfl/test-link" element={<ContestRoute></ContestRoute>}/>
 
