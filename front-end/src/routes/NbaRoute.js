@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Outlet} from 'react-router-dom';
 import SportTemplate from '../components/SportTemplate';
 import '../styles/styles.css';
 import 'react-calendar/dist/Calendar.css';
@@ -28,6 +28,7 @@ class NbaRoute extends React.Component {
             ></SportTemplate>
         </div>
         </div>
+        
       </div>
     );
   }

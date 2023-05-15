@@ -5,6 +5,7 @@ import Splash from "./routes/Splash";
 import Footer from "./routes/Footer";
 import NbaRoute from './routes/NbaRoute';
 import NflRoute from './routes/NflRoute';
+import ContestRoute from './routes/ContestRoute';
 import buildUrlFor_theOddsApi from './logic/buildUrl.js';
 import './styles/styles.css';
 class App extends React.Component {
@@ -69,10 +70,16 @@ class App extends React.Component {
                   <Route path="/" element={<Splash/>}/>
                   <Route path="/nba" element={<NbaRoute
                   fetchLiveAndUpcomingGames_theOddsApi={this.fetchLiveAndUpcomingGames_theOddsApi}
-                  />}/>
+                  />}>
+                  </Route>
+                  <Route path="/nba/test-link" element={<ContestRoute></ContestRoute>}/>
+                  
                   <Route path="/nfl" element={<NflRoute
                   fetchLiveAndUpcomingGames_theOddsApi={this.fetchLiveAndUpcomingGames_theOddsApi}
-                  />}/>
+                  />}>
+                  </Route>
+                  <Route path="/nfl/test-link" element={<ContestRoute></ContestRoute>}/>
+
                 </Routes>
             </div>
             <div className='row'>
