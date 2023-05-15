@@ -13,8 +13,26 @@ class ContestRoute extends React.Component {
   render() {
 
     return (
-      <div className="splash-header">
-            <p>Contest Route for {this.props.contest_game_id}</p>
+        <div>
+            <div className="splash-header">
+                    <p>Contest Route for {this.props.contest_game_id}</p>
+            </div>
+            <div>
+                <ul>
+                    <li>
+                        Pre Game Odds Data - TODO
+                    </li>
+                    <li>
+                        Live Betting Charts for specific bookie - TODO
+                    </li>
+                    <li>
+                        Nuggets / Analysis - TODO
+                    </li>
+                    <li>
+                        Historical Database Tool - TODO
+                    </li>
+                </ul>
+            </div>
       </div>
     );
   }
