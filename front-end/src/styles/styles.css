@@ -306,3 +306,11 @@
   .contest-block {
     border: 2px solid white;
   }
+
+  
+.contest-block-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  width: 100%;
+}
