@@ -35,9 +35,21 @@ class index_class(Resource):
     def get(self):
         return {"api-load-db-theoddsapi base" : "index_page"}
 
-class load_db_the_odds_api_route(Resource):
+
+#TODO: 
+# also need template models
+# and need to fill out put requests
+class load_cfb_the_odds_api_route(Resource):
     def get(self):
-        return {"api-load-db-theoddsapi" : "load-db route"}
+        return {"api-load-db-theoddsapi cfb route" : "load-db route"}
+class load_nba_the_odds_api_route(Resource):
+    def get(self):
+        return {"api-load-db-theoddsapi nba route" : "load-db route"}
+class load_nfl_the_odds_api_route(Resource):
+    def get(self):
+        return {"api-load-db-theoddsapi nfl route" : "load-db route"}
 #add resources
 api.add_resource(index_class, '/api')
-api.add_resource(load_db_the_odds_api_route, '/api/db-load')
+api.add_resource(load_cfb_the_odds_api_route, '/api/db-load-cfb')
+api.add_resource(load_nba_the_odds_api_route, '/api/db-load-nba')
+api.add_resource(load_nfl_the_odds_api_route, '/api/db-load-nfl')
