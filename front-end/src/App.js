@@ -6,7 +6,7 @@ import Footer from "./routes/Footer";
 import NbaRoute from './routes/NbaRoute';
 import NflRoute from './routes/NflRoute';
 import ContestRoute from './routes/ContestRoute';
-import buildUrlFor_theOddsApi from './logic/buildUrl.js';
+import buildUrlFor_customApi from './logic/buildUrl.js';
 import filterOddsApiData from './logic/filterOddsApiData.js';
 import './styles/styles.css';
 class App extends React.Component {
@@ -17,8 +17,8 @@ class App extends React.Component {
       _contest_game_id: "",
     }
     this.shouldRenderHeader  = this.shouldRenderHeader.bind(this);
-    this.fetchLiveAndUpcomingGames_theOddsApi  = this.fetchLiveAndUpcomingGames_theOddsApi.bind(this);
-    this.handleFetchAndFilter_theOddsApi  = this.handleFetchAndFilter_theOddsApi.bind(this);
+    this.fetchLiveAndUpcomingGames_customApi  = this.fetchLiveAndUpcomingGames_customApi.bind(this);
+    this.handleFetchAndFilter_customApi  = this.handleFetchAndFilter_customApi.bind(this);
     this.setContestGameId = this.setContestGameId.bind(this);
   }
   shouldRenderHeader() {
@@ -28,11 +28,12 @@ class App extends React.Component {
     }
     return false;
   }
-  async fetchLiveAndUpcomingGames_theOddsApi(sport, endpoint, dateIsoString)
+  async fetchLiveAndUpcomingGames_customApi(sport, endpoint, dateIsoString)
   {
       //endpoint should be 'scores'
       let additionalParams = {};
-      const fullAPI = buildUrlFor_theOddsApi(sport, endpoint, dateIsoString, additionalParams);
+      const fullAPI = `http://localhost:5000/api/get/live-nba-scores-data?sport=${sport}&date=${dateIsoString}`;
+      // const fullAPI = buildUrlFor_customApi(sport, endpoint, dateIsoString, additionalParams);
       //Check cache first
       const cachedResponse = sessionStorage.getItem(fullAPI);
       if (cachedResponse) {
@@ -60,9 +61,9 @@ class App extends React.Component {
           return externResponse;
       }
   }
-  async handleFetchAndFilter_theOddsApi(sportField, endpoint, isoCurrentDateTime)
+  async handleFetchAndFilter_customApi(sportField, endpoint, isoCurrentDateTime)
   {
-      let liveAndUpcomingContests = await this.fetchLiveAndUpcomingGames_theOddsApi(sportField, endpoint, isoCurrentDateTime);
+      let liveAndUpcomingContests = await this.fetchLiveAndUpcomingGames_customApi(sportField, endpoint, isoCurrentDateTime);
 
       //TODO: only want the first set of contests, not all future contests
       let filteredGameArrayData = filterOddsApiData(this.props.sportName, liveAndUpcomingContests);
@@ -95,10 +96,10 @@ class App extends React.Component {
                     oddsApiSportKey={"basketball_nba"}
                     game_array={this.state._game_array}
                     setContestGameId={this.setContestGameId}
-                    handleFetchAndFilter_theOddsApi={this.handleFetchAndFilter_theOddsApi}
+                    handleFetchAndFilter_customApi={this.handleFetchAndFilter_customApi}
                     />}>
                   </Route>
-                  <Route path="/nba/test-link" element={
+                  <Route path="/nba/contest-link" element={
                     <ContestRoute
                     contest_game_id={this.state._contest_game_id}
                     ></ContestRoute>}/>
@@ -109,10 +110,10 @@ class App extends React.Component {
                     oddsApiSportKey={"americanfootball_nfl"}
                     game_array={this.state._game_array}
                     setContestGameId={this.setContestGameId}
-                    handleFetchAndFilter_theOddsApi={this.handleFetchAndFilter_theOddsApi}
+                    handleFetchAndFilter_customApi={this.handleFetchAndFilter_customApi}
                     />}>
                   </Route>
-                  <Route path="/nfl/test-link" element={
+                  <Route path="/nfl/contest-link" element={
                     <ContestRoute
                     contest_game_id={this.state._contest_game_id}
                     ></ContestRoute>}/>

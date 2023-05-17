@@ -14,7 +14,7 @@ class SportTemplate extends Component {
         const currentDateTime = new Date();
         currentDateTime.setHours(0, 0, 0, 0);
         const isoCurrentDateTime = currentDateTime.toISOString().substring(0, 19) + 'Z';
-        this.props.handleFetchAndFilter_theOddsApi(sportField, endpoint, isoCurrentDateTime);
+        this.props.handleFetchAndFilter_customApi(sportField, endpoint, isoCurrentDateTime);
     }
 
 

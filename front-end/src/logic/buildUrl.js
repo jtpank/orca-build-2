@@ -1,5 +1,5 @@
-export default function buildUrlFor_theOddsApi(sport, endpoint, dateIsoString, additionalParams)
+export default function buildUrlFor_customApi(sport, endpoint, dateIsoString, additionalParams)
 {
-    const server_api_1 = `http://localhost:8000/api/fetch-api1-data?sport=${sport}&endpoint=${endpoint}&date=${dateIsoString}`;
+    const server_api_1 = `http://localhost:5000/api/get/live-nba-scores-data?sport=${sport}&endpoint=${endpoint}&date=${dateIsoString}`;
     return server_api_1;
 }

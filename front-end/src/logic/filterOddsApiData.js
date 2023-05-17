@@ -20,11 +20,13 @@ export default function filterOddsApiData(sport, data) {
         {
             let game = data[i];
             let tempObj = {
-                "id": game["id"],
+                "id": game["odds_api_game_id"],
                 "commence_time": game["commence_time"],
                 "home_team": game["home_team"],
                 "away_team": game["away_team"],
-                "scores": game["scores"]
+                "home_team_score": game["home_team_score"],
+                "away_team_score": game["away_team_score"],
+                "completed": game["completed"],
             }
             returnArrayOfParsedGames.push(tempObj);
         }
