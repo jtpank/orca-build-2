@@ -36,18 +36,38 @@ class SportTemplate extends Component {
     return (
         <div>
             Sport Template for {this.props.sportName}
-            <ul>
-                <li>
+            <div>
+                <label>
+                    <input
+                    type="radio"
+                    name="gameType"
+                    value="live"
+                    defaultChecked
+                    onChange={this.handleGameTypeChange}
+                    />
                     Live Games - TODO
-                    {/* <button onClick={this.handleClickLiveGameDisplay}>Click to Display</button> */}
-                </li>
-                <li>
+                </label>
+                <br />
+                <label>
+                    <input
+                    type="radio"
+                    name="gameType"
+                    value="upcoming"
+                    onChange={this.handleGameTypeChange}
+                    />
                     Upcoming Games - TODO
-                </li>
-                <li>
+                </label>
+                <br />
+                <label>
+                    <input
+                    type="radio"
+                    name="gameType"
+                    value="past"
+                    onChange={this.handleGameTypeChange}
+                    />
                     Past Games - TODO
-                </li>
-            </ul>
+                </label>
+                </div>
             <div className="contest-container-flex">
                 <div className="dropdown-container dropdown-width">
                     <button onClick={this.props.handleToggleCalendar}>
