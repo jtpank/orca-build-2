@@ -27,6 +27,9 @@ class NbaRoute extends React.Component {
             game_array={this.props.game_array}
             setContestGameId={this.props.setContestGameId}
             handleFetchAndFilter_customApi={this.props.handleFetchAndFilter_customApi}
+            handleSelectDate = {this.props.handleSelectDate}
+            handleToggleCalendar = {this.props.handleToggleCalendar}
+            showCalendar = {this.props.showCalendar}
             ></SportTemplate>
         </div>
         </div>

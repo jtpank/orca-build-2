@@ -9,17 +9,23 @@ import ContestRoute from './routes/ContestRoute';
 import buildUrlFor_customApi from './logic/buildUrl.js';
 import filterOddsApiData from './logic/filterOddsApiData.js';
 import './styles/styles.css';
+import Calendar from 'react-calendar';
 class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       _game_array: [],
       _contest_game_id: "",
+      _showCalendar: false,
+      _dateSelect: {},
+      _live_chart_current_date: {},
     }
     this.shouldRenderHeader  = this.shouldRenderHeader.bind(this);
     this.fetchLiveAndUpcomingGames_customApi  = this.fetchLiveAndUpcomingGames_customApi.bind(this);
     this.handleFetchAndFilter_customApi  = this.handleFetchAndFilter_customApi.bind(this);
     this.setContestGameId = this.setContestGameId.bind(this);
+    this.handleSelectDate = this.handleSelectDate.bind(this);
+    this.handleToggleCalendar = this.handleToggleCalendar.bind(this);
   }
   shouldRenderHeader() {
     if (typeof window !== 'undefined') {
@@ -78,6 +84,22 @@ class App extends React.Component {
       _contest_game_id: contestId,
     })
   }
+  //Calendar component functions
+  async handleSelectDate(date) {
+    const month = date.getMonth(); //getMonth() returns 0-based index
+    const day = date.getDate();
+    const year = date.getFullYear();
+    let dateObj = new Date(year, month, day);
+    this.setState({
+      _dateSelect: dateObj,
+      _live_chart_current_date: dateObj,
+    });
+  }
+  handleToggleCalendar() {
+    this.setState((prevState) => ({
+      _showCalendar: !prevState._showCalendar, // toggle the showCalendar state
+    }));
+  }
 
   render() {
     return (
@@ -97,6 +119,9 @@ class App extends React.Component {
                     game_array={this.state._game_array}
                     setContestGameId={this.setContestGameId}
                     handleFetchAndFilter_customApi={this.handleFetchAndFilter_customApi}
+                    handleSelectDate = {this.handleSelectDate}
+                    handleToggleCalendar = {this.handleToggleCalendar}
+                    showCalendar = {this.state._showCalendar}
                     />}>
                   </Route>
                   <Route path="/nba/contest-link" element={
@@ -111,6 +136,9 @@ class App extends React.Component {
                     game_array={this.state._game_array}
                     setContestGameId={this.setContestGameId}
                     handleFetchAndFilter_customApi={this.handleFetchAndFilter_customApi}
+                    handleSelectDate = {this.handleSelectDate}
+                    handleToggleCalendar = {this.handleToggleCalendar}
+                    showCalendar = {this.state._showCalendar}
                     />}>
                   </Route>
                   <Route path="/nfl/contest-link" element={

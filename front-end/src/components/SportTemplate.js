@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import ContestBlock from './ContestBlock.js';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+
 class SportTemplate extends Component {
     constructor(props) {
         super(props);
@@ -45,6 +48,18 @@ class SportTemplate extends Component {
                     Past Games - TODO
                 </li>
             </ul>
+            <div className="contest-container-flex">
+                <div className="dropdown-container dropdown-width">
+                    <button onClick={this.props.handleToggleCalendar}>
+                        Click to select a date
+                    </button>
+                    {this.props.showCalendar && (
+                        <div className="calendar-dropdown">
+                        <Calendar onChange={this.props.handleSelectDate} />
+                        </div>
+                    )}
+                </div>
+            </div>
             <div>
                 {arrayContestBlocks}
             </div>
