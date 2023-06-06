@@ -41,6 +41,9 @@ class SportTemplate extends Component {
                 <li>
                     Upcoming Games - TODO
                 </li>
+                <li>
+                    Past Games - TODO
+                </li>
             </ul>
             <div>
                 {arrayContestBlocks}
